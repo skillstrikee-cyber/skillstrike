@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillStrike - Affiliate Marketing Platform</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['Poppins', 'sans-serif'],
+            body: ['Poppins', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+  html, body { height: 100%; margin: 0; }
+  * { box-sizing: border-box; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .animate-fade-up { animation: fadeUp 0.6s ease-out forwards; }
+
+  .card-hover { 
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .card-hover:hover { 
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+
+  .nav-link { 
+    position: relative; 
+    transition: all 0.3s ease;
+    color: inherit;
+  }
+
+  .nav-link:hover { 
+    color: #3b82f6;
+  }
+
+  .nav-link.active { 
+    color: #3b82f6;
+    font-weight: 600;
+  }
+
+  .primary-btn {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    transition: all 0.3s ease;
+  }
+
+  .primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+  }
+
+  .secondary-btn {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    transition: all 0.3s ease;
+  }
+
+  .secondary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(107, 114, 128, 0.2);
+  }
+
+  input:focus, select:focus { 
+    outline: none; 
+    border-color: #3b82f6 !important; 
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .tier-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .tier-table th {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    padding: 1rem;
+    text-align: left;
+    color: #374151;
+    font-weight: 600;
+  }
+
+  .tier-table td {
+    border: 1px solid #e5e7eb;
+    padding: 1rem;
+    color: #6b7280;
+  }
+
+  .tier-table tr:hover {
+    background: #f9fafb;
+  }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #f3f4f6; }
+  ::-webkit-scrollbar-thumb { 
+    background: #3b82f6;
+    border-radius: 4px;
+  }
+
+  .leader-profile {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .leader-profile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent);
+    pointer-events: none;
+  }
+
+  .float-bounce {
+    animation: float 3s ease-in-out infinite;
+  }
+</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full font-body" style="background: #ffffff; color: #374151;">
+  <div id="app-wrapper" class="h-full w-full overflow-auto" style="background: #ffffff; color: #374151;"><!-- Navigation -->
+   <header id="mainNav" class="sticky top-0 z-40 border-b border-gray-200" style="background: #ffffff;">
+    <nav class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+     <div class="flex items-center gap-2">
+      <div class="w-9 h-9 rounded-lg flex items-center justify-center font-heading font-bold text-white" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+       S
+      </div><span id="navTitle" class="font-heading font-bold text-lg" style="color: #1f2937;">SkillStrike</span>
+     </div>
+     <div class="hidden md:flex items-center gap-8"><button onclick="navigateTo('home')" class="nav-link text-sm font-medium text-gray-600" data-nav="home">Home</button> <button onclick="navigateTo('courses')" class="nav-link text-sm font-medium text-gray-600" data-nav="courses">Courses</button> <button onclick="navigateTo('levels')" class="nav-link text-sm font-medium text-gray-600" data-nav="levels">Levels</button> <button onclick="navigateTo('leaders')" class="nav-link text-sm font-medium text-gray-600" data-nav="leaders">Leaders</button> <button onclick="navigateTo('affiliate')" class="nav-link text-sm font-medium text-gray-600" data-nav="affiliate">Affiliate</button> <button onclick="navigateTo('contact')" class="nav-link text-sm font-medium text-gray-600" data-nav="contact">Contact</button>
+     </div><button onclick="toggleMobileMenu()" class="md:hidden text-gray-600"><i data-lucide="menu" style="width:24px;height:24px;"></i></button>
+    </nav>
+    <div id="mobileMenu" class="hidden md:hidden px-4 pb-4 space-y-2"><button onclick="navigateTo('home');toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded text-gray-600 hover:bg-gray-100 text-sm">Home</button> <button onclick="navigateTo('courses');toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded text-gray-600 hover:bg-gray-100 text-sm">Courses</button> <button onclick="navigateTo('levels');toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded text-gray-600 hover:bg-gray-100 text-sm">Levels</button> <button onclick="navigateTo('leaders');toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded text-gray-600 hover:bg-gray-100 text-sm">Leaders</button> <button onclick="navigateTo('affiliate');toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded text-gray-600 hover:bg-gray-100 text-sm">Affiliate</button> <button onclick="navigateTo('contact');toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded text-gray-600 hover:bg-gray-100 text-sm">Contact</button>
+    </div>
+   </header><!-- Main Content -->
+   <main id="mainContent" class="max-w-7xl mx-auto px-4 py-6"><!-- HOME PAGE -->
+    <section id="page-home" class="page-section">
+     <div class="text-center py-16 animate-fade-up">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold mb-6" style="background: #dbeafe; color: #1e40af;"><i data-lucide="zap" style="width:14px;height:14px;"></i> AFFILIATE MARKETING PLATFORM
+      </div>
+      <h1 id="heroTitle" class="font-heading text-5xl md:text-6xl font-bold mb-4" style="color: #1f2937;">SkillStrike</h1>
+      <p id="heroTagline" class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto" style="color: #6b7280;">Earn While You Learn &amp; Teach</p>
+      <div class="flex flex-wrap justify-center gap-4"><button onclick="navigateTo('courses')" class="px-8 py-3 rounded-lg font-semibold text-white primary-btn"> Explore Courses <i data-lucide="arrow-right" style="width:18px;height:18px;display:inline;vertical-align:middle;margin-left:6px;"></i> </button> <button onclick="navigateTo('affiliate')" class="px-8 py-3 rounded-lg font-semibold text-white secondary-btn"> Join as Affiliate <i data-lucide="users" style="width:18px;height:18px;display:inline;vertical-align:middle;margin-left:6px;"></i> </button>
+      </div>
+     </div><!-- Stats -->
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+      <div class="text-center p-6 rounded-lg bg-blue-50 border border-blue-200">
+       <div class="font-heading text-3xl font-bold" style="color: #3b82f6;">
+        3
+       </div>
+       <div class="text-sm mt-2" style="color: #3b82f6;">
+        Courses
+       </div>
+      </div>
+      <div class="text-center p-6 rounded-lg bg-blue-50 border border-blue-200">
+       <div class="font-heading text-3xl font-bold" style="color: #3b82f6;">
+        10
+       </div>
+       <div class="text-sm mt-2" style="color: #3b82f6;">
+        Affiliate Levels
+       </div>
+      </div>
+      <div class="text-center p-6 rounded-lg bg-blue-50 border border-blue-200">
+       <div class="font-heading text-3xl font-bold" style="color: #3b82f6;">
+        70%
+       </div>
+       <div class="text-sm mt-2" style="color: #3b82f6;">
+        Commissions
+       </div>
+      </div>
+      <div class="text-center p-6 rounded-lg bg-blue-50 border border-blue-200">
+       <div class="font-heading text-3xl font-bold" style="color: #3b82f6;">
+        ∞
+       </div>
+       <div class="text-sm mt-2" style="color: #3b82f6;">
+        Earnings
+       </div>
+      </div>
+     </div><!-- Key Features -->
+     <div class="mb-16">
+      <h2 class="font-heading text-3xl font-bold text-center mb-12" style="color: #1f2937;">How SkillStrike Affiliate Works</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+       <div class="p-8 rounded-lg border border-gray-200 bg-white card-hover">
+        <div class="w-14 h-14 rounded-lg mb-4 flex items-center justify-center" style="background: #dbeafe;">
+         <i data-lucide="gift" style="width:28px;height:28px;color:#3b82f6;"></i>
+        </div>
+        <h3 class="font-heading font-bold text-lg mb-2" style="color: #1f2937;">Earn Commissions</h3>
+        <p class="text-gray-600">Get 70% commission on every course sale + 50% SkillPoints bonus</p>
+       </div>
+       <div class="p-8 rounded-lg border border-gray-200 bg-white card-hover">
+        <div class="w-14 h-14 rounded-lg mb-4 flex items-center justify-center" style="background: #dbeafe;">
+         <i data-lucide="trending-up" style="width:28px;height:28px;color:#3b82f6;"></i>
+        </div>
+        <h3 class="font-heading font-bold text-lg mb-2" style="color: #1f2937;">Level Up Fast</h3>
+        <p class="text-gray-600">Climb from Newbie to Legend with SkillPoints system</p>
+       </div>
+       <div class="p-8 rounded-lg border border-gray-200 bg-white card-hover">
+        <div class="w-14 h-14 rounded-lg mb-4 flex items-center justify-center" style="background: #dbeafe;">
+         <i data-lucide="users-round" style="width:28px;height:28px;color:#3b82f6;"></i>
+        </div>
+        <h3 class="font-heading font-bold text-lg mb-2" style="color: #1f2937;">Build Your Network</h3>
+        <p class="text-gray-600">Earn 30% from your downline's sales + 50% SP bonus</p>
+       </div>
+      </div>
+     </div>
+    </section><!-- COURSES PAGE -->
+    <section id="page-courses" class="page-section hidden">
+     <h2 class="font-heading text-3xl font-bold text-center mb-4" style="color: #1f2937;">Premium Courses</h2>
+     <p class="text-center mb-12 text-gray-600">Sell these high-value courses and earn massive commissions</p>
+     <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto"><!-- Course 1 -->
+      <div class="rounded-lg overflow-hidden border border-gray-200 bg-white card-hover">
+       <div class="h-40 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-50">
+        <i data-lucide="share-2" style="width:48px;height:48px;color:#3b82f6;"></i>
+       </div>
+       <div class="p-6">
+        <div class="text-xs font-semibold mb-2" style="color:#3b82f6;">
+         COURSE 1
+        </div>
+        <h3 class="font-heading text-lg font-bold mb-2" style="color: #1f2937;">Social Media Marketing</h3>
+        <p class="text-sm text-gray-600 mb-4">Master social platforms to drive sales and build brand presence.</p>
+        <div class="mb-4 space-y-2 text-sm">
+         <div>
+          <span style="color: #ef4444;">₹2,999</span> • <span style="color: #3b82f6;">Your Commission: ₹2,099</span>
+         </div>
+         <div style="color: #6b7280;">
+          SkillPoints for Selling: 300 SP
+         </div>
+         <div style="color: #3b82f6;">
+          Your Upline Bonus: 150 SP (50%)
+         </div>
+        </div>
+        <div class="flex items-center justify-between">
+         <div class="text-xs text-gray-500">
+          ~10 Hours
+         </div><button class="px-3 py-1 rounded text-xs font-semibold text-white primary-btn">View Details</button>
+        </div>
+       </div>
+      </div><!-- Course 2 -->
+      <div class="rounded-lg overflow-hidden border border-gray-200 bg-white card-hover">
+       <div class="h-40 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-50">
+        <i data-lucide="target" style="width:48px;height:48px;color:#3b82f6;"></i>
+       </div>
+       <div class="p-6">
+        <div class="text-xs font-semibold mb-2" style="color:#3b82f6;">
+         COURSE 2
+        </div>
+        <h3 class="font-heading text-lg font-bold mb-2" style="color: #1f2937;">Leads Generation</h3>
+        <p class="text-sm text-gray-600 mb-4">Learn proven techniques to generate high-quality leads consistently.</p>
+        <div class="mb-4 space-y-2 text-sm">
+         <div>
+          <span style="color: #ef4444;">₹4,999</span> • <span style="color: #3b82f6;">Your Commission: ₹3,499</span>
+         </div>
+         <div style="color: #6b7280;">
+          SkillPoints for Selling: 500 SP
+         </div>
+         <div style="color: #3b82f6;">
+          Your Upline Bonus: 250 SP (50%)
+         </div>
+        </div>
+        <div class="flex items-center justify-between">
+         <div class="text-xs text-gray-500">
+          ~15 Hours
+         </div><button class="px-3 py-1 rounded text-xs font-semibold text-white primary-btn">View Details</button>
+        </div>
+       </div>
+      </div><!-- Course 3 -->
+      <div class="rounded-lg overflow-hidden border border-gray-200 bg-white card-hover">
+       <div class="h-40 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-50">
+        <i data-lucide="cpu" style="width:48px;height:48px;color:#3b82f6;"></i>
+       </div>
+       <div class="p-6">
+        <div class="text-xs font-semibold mb-2" style="color:#3b82f6;">
+         COURSE 3
+        </div>
+        <h3 class="font-heading text-lg font-bold mb-2" style="color: #1f2937;">AI Generation</h3>
+        <p class="text-sm text-gray-600 mb-4">Harness AI tools to automate and scale your marketing efforts.</p>
+        <div class="mb-4 space-y-2 text-sm">
+         <div>
+          <span style="color: #ef4444;">₹6,999</span> • <span style="color: #3b82f6;">Your Commission: ₹4,899</span>
+         </div>
+         <div style="color: #6b7280;">
+          SkillPoints for Selling: 700 SP
+         </div>
+         <div style="color: #3b82f6;">
+          Your Upline Bonus: 350 SP (50%)
+         </div>
+        </div>
+        <div class="flex items-center justify-between">
+         <div class="text-xs text-gray-500">
+          ~20 Hours
+         </div><button class="px-3 py-1 rounded text-xs font-semibold text-white primary-btn">View Details</button>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- LEVELS PAGE -->
+    <section id="page-levels" class="page-section hidden">
+     <h2 class="font-heading text-3xl font-bold text-center mb-4" style="color: #1f2937;">Affiliate Levels &amp; SkillPoints</h2>
+     <p class="text-center mb-12 text-gray-600">Climb the ladder and unlock exclusive rewards at each level</p><!-- Level Cards Showcase -->
+     <div class="grid md:grid-cols-5 gap-4 mb-16">
+      <div class="p-4 rounded-lg text-center border border-gray-200 bg-blue-50 card-hover">
+       <div style="font-size: 2rem; margin-bottom: 0.5rem;">
+        🌱
+       </div>
+       <h3 class="font-heading font-bold mb-2" style="color: #1f2937;">Newbie</h3>
+       <div style="color: #3b82f6; font-size: 1.25rem; font-weight: 700;">
+        1,000 SP
+       </div>
+       <p class="text-xs mt-2 text-gray-600">Your first step into affiliate marketing</p>
+      </div>
+      <div class="p-4 rounded-lg text-center border border-gray-200 bg-blue-50 card-hover">
+       <div style="font-size: 2rem; margin-bottom: 0.5rem;">
+        ⚡
+       </div>
+       <h3 class="font-heading font-bold mb-2" style="color: #1f2937;">Starter</h3>
+       <div style="color: #3b82f6; font-size: 1.25rem; font-weight: 700;">
+        1,500 SP
+       </div>
+       <p class="text-xs mt-2 text-gray-600">Building your first sales</p>
+      </div>
+      <div class="p-4 rounded-lg text-center border border-gray-200 bg-blue-50 card-hover">
+       <div style="font-size: 2rem; margin-bottom: 0.5rem;">
+        🔨
+       </div>
+       <h3 class="font-heading font-bold mb-2" style="color: #1f2937;">Builder</h3>
+       <div style="color: #3b82f6; font-size: 1.25rem; font-weight: 700;">
+        2,000 SP
+       </div>
+       <p class="text-xs mt-2 text-gray-600">Creating your network</p>
+      </div>
+      <div class="p-4 rounded-lg text-center border border-gray-200 bg-blue-50 card-hover">
+       <div style="font-size: 2rem; margin-bottom: 0.5rem;">
+        🚀
+       </div>
+       <h3 class="font-heading font-bold mb-2" style="color: #1f2937;">Hustler</h3>
+       <div style="color: #3b82f6; font-size: 1.25rem; font-weight: 700;">
+        3,000 SP
+       </div>
+       <p class="text-xs mt-2 text-gray-600">Serious earnings begin</p>
+      </div>
+      <div class="p-4 rounded-lg text-center border border-gray-200 bg-blue-50 card-hover">
+       <div style="font-size: 2rem; margin-bottom: 0.5rem;">
+        💎
+       </div>
+       <h3 class="font-heading font-bold mb-2" style="color: #1f2937;">Pro</h3>
+       <div style="color: #3b82f6; font-size: 1.25rem; font-weight: 700;">
+        5,000 SP
+       </div>
+       <p class="text-xs mt-2 text-gray-600">Professional affiliate</p>
+      </div>
+     </div><!-- Full Level Table -->
+     <div class="mb-8 rounded-lg overflow-hidden border border-gray-200">
+      <table class="tier-table">
+       <thead>
+        <tr>
+         <th>Level</th>
+         <th>SkillPoints Required</th>
+         <th>Earnings Potential</th>
+         <th>Rewards</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Newbie</td>
+         <td>1,000 SP</td>
+         <td>Entry Level</td>
+         <td>Basic Dashboard</td>
+        </tr>
+        <tr>
+         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Starter</td>
+         <td>1,500 SP</td>
+         <td>₹30,000+</td>
+         <td>Marketing Materials</td>
+        </tr>
+        <tr>
+         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Builder</td>
+         <td>2,000 SP</td>
+         <td>₹100,000+</td>
+         <td>Priority Support</td>
+        </tr>
+        <tr>
+         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Hustler</td>
+         <td>3,000 SP</td>
+         <td>₹300,000+</td>
+         <td>Exclusive Training</td>
+        </tr>
+        <tr>
+         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Pro</td>
+         <td>5,000 SP</td>
+         <td>₹1,000,000+</td>
+         <td>VIP Mentoring</td>
+        </tr>
+        <tr>
+         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Closer</td>
+         <td>8,000 SP</td>
+         <td>₹3,000,000+</td>
+         <td>Revenue Share</td>
+        </tr>
+        <tr>
+         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Leader</td>
+         <td>12,000 SP</td>
+         <td>₹8,000,000+</td>
+         <td>Co-marketing Rights</td>
+        </tr>
+        <tr>
+         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Influencer</td>
+         <td>18,000 SP</td>
+         <td>₹20,000,000+</td>
+         <td>Brand Ambassador</td>
+        </tr>
+        <tr>
+         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Icon</td>
+         <td>25,000 SP</td>
+         <td>₹50,000,000+</td>
+         <td>Executive Benefits</td>
+        </tr>
+        <tr>
+         <td><i data-lucide="crown" style="width:16px;height:16px;display:inline;margin-right:6px;color:#3b82f6;"></i> Legend</td>
+         <td>40,000 SP</td>
+         <td>Unlimited</td>
+         <td>Hall of Fame</td>
+        </tr>
+       </tbody>
+      </table>
+     </div><!-- SkillPoints Info -->
+     <div class="grid md:grid-cols-2 gap-6 mb-8">
+      <div class="p-6 rounded-lg border border-gray-200 bg-gray-50">
+       <h3 class="font-heading font-bold mb-4 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="zap" style="width:20px;height:20px;color:#3b82f6;"></i> How You Earn SkillPoints</h3>
+       <ul class="space-y-2 text-gray-700">
+        <li class="flex gap-2"><span style="color:#3b82f6; font-weight:700;">•</span> Sell Course 1 (₹2,999) → <span style="color:#3b82f6; font-weight:600;">300 SP</span></li>
+        <li class="flex gap-2"><span style="color:#3b82f6; font-weight:700;">•</span> Sell Course 2 (₹4,999) → <span style="color:#3b82f6; font-weight:600;">500 SP</span></li>
+        <li class="flex gap-2"><span style="color:#3b82f6; font-weight:700;">•</span> Sell Course 3 (₹6,999) → <span style="color:#3b82f6; font-weight:600;">700 SP</span></li>
+        <li class="flex gap-2 pt-2" style="border-top: 1px solid #e5e7eb;"><span style="color:#3b82f6; font-weight:700;">+</span> <span style="color:#3b82f6; font-weight:600;">50% Bonus SP</span> from your upline's sales</li>
+       </ul>
+      </div>
+      <div class="p-6 rounded-lg border border-gray-200 bg-gray-50">
+       <h3 class="font-heading font-bold mb-4 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="trending-up" style="width:20px;height:20px;color:#3b82f6;"></i> Your Earnings Structure</h3>
+       <ul class="space-y-2 text-gray-700">
+        <li class="flex gap-2"><span style="color:#3b82f6; font-weight:700;">💰</span> <span style="color:#3b82f6; font-weight:600;">70%</span> commission on direct sales</li>
+        <li class="flex gap-2"><span style="color:#3b82f6; font-weight:700;">💰</span> <span style="color:#3b82f6; font-weight:600;">30%</span> from downline member sales</li>
+        <li class="flex gap-2"><span style="color:#3b82f6; font-weight:700;">💰</span> Unlimited depth in your network</li>
+        <li class="flex gap-2 pt-2" style="border-top: 1px solid #e5e7eb;"><span style="color:#3b82f6; font-weight:600;">Income compounds as you level up!</span></li>
+       </ul>
+      </div>
+     </div>
+    </section><!-- LEADERS PAGE -->
+    <section id="page-leaders" class="page-section hidden">
+     <h2 class="font-heading text-3xl font-bold text-center mb-4" style="color: #1f2937;">Meet Our Leaders</h2>
+     <p class="text-center mb-12 text-gray-600">The visionary team behind SkillStrike's success</p>
+     <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto mb-16">
+      <!-- Founder -->
+      <div class="text-center">
+       <div class="mb-6 inline-block">
+        <div class="w-40 h-40 rounded-full mx-auto flex items-center justify-center mb-6 leader-profile float-bounce" style="background: linear-gradient(135deg, #3b82f6, #2563eb); box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);"><i data-lucide="crown" style="width:80px;height:80px;color:white;"></i>
+        </div>
+       </div>
+       <h3 class="font-heading text-2xl font-bold mb-2" style="color: #1f2937;">Siddharth</h3>
+       <div class="text-sm font-semibold mb-4" style="color: #3b82f6;">
+        Founder &amp; Visionary
+       </div>
+       <p class="text-gray-600 mb-6 leading-relaxed">With a passion for empowering entrepreneurs, Siddharth founded SkillStrike to revolutionize affiliate marketing. His strategic vision and commitment to excellence drive the platform's continuous growth and innovation.</p>
+       <div class="space-y-2 text-sm">
+        <div class="flex items-center justify-center gap-2 text-gray-600">
+         <i data-lucide="target" style="width:16px;height:16px;color:#3b82f6;"></i> <span>Building the future of affiliate marketing</span>
+        </div>
+        <div class="flex items-center justify-center gap-2 text-gray-600">
+         <i data-lucide="star" style="width:16px;height:16px;color:#3b82f6;"></i> <span>Mentor to 1000+ affiliates</span>
+        </div>
+        <div class="flex items-center justify-center gap-2 text-gray-600">
+         <i data-lucide="trending-up" style="width:16px;height:16px;color:#3b82f6;"></i> <span>10+ years in digital business</span>
+        </div>
+       </div>
+      </div><!-- Co-founder -->
+      <div class="text-center">
+       <div class="mb-6 inline-block">
+        <div class="w-40 h-40 rounded-full mx-auto flex items-center justify-center mb-6 leader-profile float-bounce" style="background: linear-gradient(135deg, #06b6d4, #0891b2); box-shadow: 0 10px 40px rgba(6, 182, 212, 0.4); animation-delay: 0.3s;"><i data-lucide="zap" style="width:80px;height:80px;color:white;"></i>
+        </div>
+       </div>
+       <h3 class="font-heading text-2xl font-bold mb-2" style="color: #1f2937;">Dishant</h3>
+       <div class="text-sm font-semibold mb-4" style="color: #0891b2;">
+        Co-Founder &amp; Operations Lead
+       </div>
+       <p class="text-gray-600 mb-6 leading-relaxed">Dishant brings operational excellence and technical expertise to SkillStrike. His focus on system optimization and user experience ensures every affiliate enjoys seamless platform functionality and maximum earning potential.</p>
+       <div class="space-y-2 text-sm">
+        <div class="flex items-center justify-center gap-2 text-gray-600">
+         <i data-lucide="settings" style="width:16px;height:16px;color:#0891b2;"></i> <span>System architecture &amp; optimization</span>
+        </div>
+        <div class="flex items-center justify-center gap-2 text-gray-600">
+         <i data-lucide="activity" style="width:16px;height:16px;color:#0891b2;"></i> <span>Technical innovation lead</span>
+        </div>
+        <div class="flex items-center justify-center gap-2 text-gray-600">
+         <i data-lucide="users" style="width:16px;height:16px;color:#0891b2;"></i> <span>Community growth strategist</span>
+        </div>
+       </div>
+      </div>
+     </div><!-- Vision Section -->
+     <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      <div class="p-6 rounded-lg border border-gray-200 bg-white card-hover text-center">
+       <div class="w-12 h-12 rounded-lg mb-4 flex items-center justify-center mx-auto" style="background: #dbeafe;">
+        <i data-lucide="lightbulb" style="width:24px;height:24px;color:#3b82f6;"></i>
+       </div>
+       <h4 class="font-heading font-bold mb-2" style="color: #1f2937;">Our Mission</h4>
+       <p class="text-sm text-gray-600">Empower individuals to build sustainable income through ethical affiliate marketing</p>
+      </div>
+      <div class="p-6 rounded-lg border border-gray-200 bg-white card-hover text-center">
+       <div class="w-12 h-12 rounded-lg mb-4 flex items-center justify-center mx-auto" style="background: #dbeafe;">
+        <i data-lucide="eye" style="width:24px;height:24px;color:#3b82f6;"></i>
+       </div>
+       <h4 class="font-heading font-bold mb-2" style="color: #1f2937;">Our Vision</h4>
+       <p class="text-sm text-gray-600">Create a global community of successful, well-trained affiliate marketers</p>
+      </div>
+      <div class="p-6 rounded-lg border border-gray-200 bg-white card-hover text-center">
+       <div class="w-12 h-12 rounded-lg mb-4 flex items-center justify-center mx-auto" style="background: #dbeafe;">
+        <i data-lucide="award" style="width:24px;height:24px;color:#3b82f6;"></i>
+       </div>
+       <h4 class="font-heading font-bold mb-2" style="color: #1f2937;">Our Values</h4>
+       <p class="text-sm text-gray-600">Transparency, integrity, and consistent support for every team member</p>
+      </div>
+     </div>
+    </section><!-- AFFILIATE PAGE -->
+    <section id="page-affiliate" class="page-section hidden">
+     <h2 class="font-heading text-3xl font-bold text-center mb-4" style="color: #1f2937;">Affiliate Program Details</h2>
+     <p class="text-center mb-12 text-gray-600">Everything you need to succeed as a SkillStrike affiliate</p><!-- Commission Structure -->
+     <div class="mb-12">
+      <h3 class="font-heading text-2xl font-bold mb-6" style="color: #1f2937;">Commission &amp; Referral System</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+       <div class="p-8 rounded-lg border border-gray-200 bg-white">
+        <h4 class="font-heading font-bold mb-4 text-lg flex items-center gap-2" style="color: #1f2937;"><i data-lucide="gift" style="width:24px;height:24px;color:#3b82f6;"></i> Direct Sales Commission</h4>
+        <div class="space-y-3 text-gray-700">
+         <div class="flex justify-between items-center pb-2" style="border-bottom: 1px solid #e5e7eb;"><span>Social Media Marketing</span> <span style="color: #3b82f6; font-weight: 700;">₹2,099 (70%)</span>
+         </div>
+         <div class="flex justify-between items-center pb-2" style="border-bottom: 1px solid #e5e7eb;"><span>Leads Generation</span> <span style="color: #3b82f6; font-weight: 700;">₹3,499 (70%)</span>
+         </div>
+         <div class="flex justify-between items-center pb-2" style="border-bottom: 1px solid #e5e7eb;"><span>AI Generation</span> <span style="color: #3b82f6; font-weight: 700;">₹4,899 (70%)</span>
+         </div>
+         <div class="flex justify-between items-center pt-2" style="border-top: 2px solid #e5e7eb;"><span style="font-weight: 600;">Total on 1 of each</span> <span style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">₹10,497</span>
+         </div>
+        </div>
+       </div>
+       <div class="p-8 rounded-lg border border-gray-200 bg-white">
+        <h4 class="font-heading font-bold mb-4 text-lg flex items-center gap-2" style="color: #1f2937;"><i data-lucide="users-round" style="width:24px;height:24px;color:#3b82f6;"></i> Downline Referral (30%)</h4>
+        <div class="space-y-3 text-gray-700">
+         <div class="flex justify-between items-center pb-2" style="border-bottom: 1px solid #e5e7eb;"><span>Social Media Marketing</span> <span style="color: #3b82f6; font-weight: 700;">₹899 (30%)</span>
+         </div>
+         <div class="flex justify-between items-center pb-2" style="border-bottom: 1px solid #e5e7eb;"><span>Leads Generation</span> <span style="color: #3b82f6; font-weight: 700;">₹1,499 (30%)</span>
+         </div>
+         <div class="flex justify-between items-center pb-2" style="border-bottom: 1px solid #e5e7eb;"><span>AI Generation</span> <span style="color: #3b82f6; font-weight: 700;">₹2,099 (30%)</span>
+         </div>
+         <div class="flex justify-between items-center pt-2" style="border-top: 2px solid #e5e7eb;"><span style="font-weight: 600;">Total per downline sale</span> <span style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">₹4,497</span>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Sample Earnings Scenarios -->
+     <div class="mb-12">
+      <h3 class="font-heading text-2xl font-bold mb-6" style="color: #1f2937;">Earnings Scenarios</h3>
+      <div class="space-y-4">
+       <div class="p-6 rounded-lg border border-gray-200 bg-blue-50">
+        <h4 class="font-heading font-bold mb-3" style="color: #1f2937;">Month 1: 5 Direct Sales</h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-gray-700">
+         <div>
+          <div class="text-sm opacity-70">
+           Your Sales
+          </div>
+          <div style="color: #3b82f6; font-weight: 700; font-size: 1.25rem;">
+           ₹10,497
+          </div>
+         </div>
+         <div>
+          <div class="text-sm opacity-70">
+           SkillPoints Earned
+          </div>
+          <div style="color: #3b82f6; font-weight: 700; font-size: 1.25rem;">
+           1,500 SP
+          </div>
+         </div>
+         <div>
+          <div class="text-sm opacity-70">
+           Level Achieved
+          </div>
+          <div style="color: #3b82f6; font-weight: 700; font-size: 1.25rem;">
+           Starter ⚡
+          </div>
+         </div>
+         <div>
+          <div class="text-sm opacity-70">
+           Unlocked
+          </div>
+          <div style="color: #3b82f6; font-weight: 700; font-size: 1.25rem;">
+           Marketing Kit
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="p-6 rounded-lg border border-gray-200 bg-blue-50">
+        <h4 class="font-heading font-bold mb-3" style="color: #1f2937;">Month 3: 20 Direct + 15 Downline</h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-gray-700">
+         <div>
+          <div class="text-sm opacity-70">
+           Your Direct Earnings
+          </div>
+          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
+           ₹41,988
+          </div>
+         </div>
+         <div>
+          <div class="text-sm opacity-70">
+           Downline Bonus
+          </div>
+          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
+           ₹67,455
+          </div>
+         </div>
+         <div>
+          <div class="text-sm opacity-70">
+           Combined Income
+          </div>
+          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
+           ₹109,443
+          </div>
+         </div>
+         <div>
+          <div class="text-sm opacity-70">
+           Current Level
+          </div>
+          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
+           Pro 💎
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="p-6 rounded-lg border border-gray-200 bg-blue-50">
+        <h4 class="font-heading font-bold mb-3" style="color: #1f2937;">Month 6: 50 Direct + 100 Downline</h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-gray-700">
+         <div>
+          <div class="text-sm opacity-70">
+           Your Direct Earnings
+          </div>
+          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
+           ₹104,970
+          </div>
+         </div>
+         <div>
+          <div class="text-sm opacity-70">
+           Downline Bonus
+          </div>
+          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
+           ₹449,700
+          </div>
+         </div>
+         <div>
+          <div class="text-sm opacity-70">
+           Combined Monthly
+          </div>
+          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
+           ₹554,670
+          </div>
+         </div>
+         <div>
+          <div class="text-sm opacity-70">
+           Current Level
+          </div>
+          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
+           Influencer 🌟
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Why Join -->
+     <div class="mb-12">
+      <h3 class="font-heading text-2xl font-bold mb-6" style="color: #1f2937;">Why Join SkillStrike Affiliate?</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+       <div class="p-6 rounded-lg border border-gray-200 card-hover">
+        <h4 class="font-heading font-bold mb-2 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="award" style="width:20px;height:20px;color:#3b82f6;"></i> High Commissions</h4>
+        <p class="text-gray-600">70% commission on direct sales is industry-leading</p>
+       </div>
+       <div class="p-6 rounded-lg border border-gray-200 card-hover">
+        <h4 class="font-heading font-bold mb-2 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="zap" style="width:20px;height:20px;color:#3b82f6;"></i> Gamified System</h4>
+        <p class="text-gray-600">SkillPoints levels keep you motivated and engaged</p>
+       </div>
+       <div class="p-6 rounded-lg border border-gray-200 card-hover">
+        <h4 class="font-heading font-bold mb-2 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="trending-up" style="width:20px;height:20px;color:#3b82f6;"></i> Passive Income</h4>
+        <p class="text-gray-600">Earn 30% from your downline indefinitely</p>
+       </div>
+       <div class="p-6 rounded-lg border border-gray-200 card-hover">
+        <h4 class="font-heading font-bold mb-2 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="users" style="width:20px;height:20px;color:#3b82f6;"></i> Network Building</h4>
+        <p class="text-gray-600">Unlimited depth in your affiliate network</p>
+       </div>
+       <div class="p-6 rounded-lg border border-gray-200 card-hover">
+        <h4 class="font-heading font-bold mb-2 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="star" style="width:20px;height:20px;color:#3b82f6;"></i> Premium Training</h4>
+        <p class="text-gray-600">Unlock exclusive training at higher levels</p>
+       </div>
+       <div class="p-6 rounded-lg border border-gray-200 card-hover">
+        <h4 class="font-heading font-bold mb-2 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="activity" style="width:20px;height:20px;color:#3b82f6;"></i> Real-Time Tracking</h4>
+        <p class="text-gray-600">Dashboard to monitor all your earnings and stats</p>
+       </div>
+      </div>
+     </div><!-- CTA -->
+     <div class="text-center p-8 rounded-lg border border-gray-200 bg-blue-50 mb-8">
+      <h3 class="font-heading text-2xl font-bold mb-4" style="color: #1f2937;">Ready to Start Earning?</h3>
+      <p class="mb-6 text-gray-600">Join thousands of affiliates already making money with SkillStrike</p><button class="px-12 py-4 rounded-lg font-semibold text-white primary-btn"> <i data-lucide="arrow-right" style="width:20px;height:20px;display:inline;vertical-align:middle;margin-right:8px;"></i> Apply Now </button>
+     </div>
+    </section><!-- CONTACT PAGE -->
+    <section id="page-contact" class="page-section hidden">
+     <div class="max-w-2xl mx-auto">
+      <h2 class="font-heading text-3xl font-bold text-center mb-4" style="color: #1f2937;">Get In Touch</h2>
+      <p class="text-center mb-12 text-gray-600">Have questions about our affiliate program? We'd love to hear from you</p>
+      <div class="grid md:grid-cols-2 gap-8"><!-- Contact Info -->
+       <div class="space-y-6">
+        <div class="p-6 rounded-lg border border-gray-200 card-hover">
+         <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-blue-100">
+           <i data-lucide="map-pin" style="width:24px;height:24px;color:#3b82f6;"></i>
+          </div>
+          <div>
+           <h3 class="font-heading font-bold mb-1" style="color: #1f2937;">Location</h3>
+           <p id="contactLocation" class="text-sm text-gray-600">SK 13 Shastri Nagar, Gaziabad</p>
+          </div>
+         </div>
+        </div>
+        <div class="p-6 rounded-lg border border-gray-200 card-hover">
+         <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-blue-100">
+           <i data-lucide="phone" style="width:24px;height:24px;color:#3b82f6;"></i>
+          </div>
+          <div>
+           <h3 class="font-heading font-bold mb-1" style="color: #1f2937;">Phone</h3>
+           <p id="contactPhone" class="text-sm text-gray-600">+91 8882728942</p>
+          </div>
+         </div>
+        </div>
+        <div class="p-6 rounded-lg border border-gray-200 card-hover">
+         <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-blue-100">
+           <i data-lucide="mail" style="width:24px;height:24px;color:#3b82f6;"></i>
+          </div>
+          <div>
+           <h3 class="font-heading font-bold mb-1" style="color: #1f2937;">Email</h3>
+           <p id="contactEmail" class="text-sm text-gray-600">skillstrikee@gmail.com</p>
+          </div>
+         </div>
+        </div>
+       </div><!-- Message Box -->
+       <div class="p-8 rounded-lg border border-gray-200 bg-gray-50">
+        <h3 class="font-heading font-bold mb-4" style="color: #1f2937;">Send us a Message</h3>
+        <p class="mb-6 text-gray-600">Interested in joining our affiliate program? Have feedback or questions? We'll get back to you as soon as possible.</p>
+        <div class="space-y-3"><a href="tel:+918882728942" class="block w-full py-3 px-4 rounded-lg text-center font-semibold text-white primary-btn transition"> <i data-lucide="phone" style="width:16px;height:16px;display:inline;margin-right:8px;vertical-align:middle;"></i> Call Us </a> <a href="mailto:skillstrikee@gmail.com" class="block w-full py-3 px-4 rounded-lg text-center font-semibold text-white primary-btn transition"> <i data-lucide="mail" style="width:16px;height:16px;display:inline;margin-right:8px;vertical-align:middle;"></i> Send Email </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+   </main><!-- Footer -->
+   <footer class="max-w-7xl mx-auto px-4 py-8 mt-12 border-t border-gray-200">
+    <div class="text-center space-y-4">
+     <div class="text-sm text-gray-600">
+      <p><strong>SK 13 Shastri Nagar,</strong> Gaziabad</p>
+      <p>📞 +91 8882728942 | 📧 skillstrikee@gmail.com</p>
+     </div>
+     <div class="text-xs text-gray-500">
+      © 2025 SkillStrike. All rights reserved. | Affiliate Platform
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+// STATE
+let currentPage = 'home';
+
+// NAVIGATION
+function navigateTo(page) {
+  currentPage = page;
+  document.querySelectorAll('.page-section').forEach(s => s.classList.add('hidden'));
+  const target = document.getElementById('page-' + page);
+  if (target) { 
+    target.classList.remove('hidden'); 
+    target.classList.add('animate-fade-up'); 
+  }
+  document.querySelectorAll('[data-nav]').forEach(n => {
+    n.classList.toggle('active', n.dataset.nav === page);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleMobileMenu() {
+  document.getElementById('mobileMenu').classList.toggle('hidden');
+}
+
+// ELEMENT SDK
+const defaultConfig = {
+  platform_title: 'SkillStrike',
+  tagline: 'Earn While You Learn & Teach',
+  location: 'SK 13 Shastri Nagar, Gaziabad',
+  phone: '+91 8882728942',
+  email: 'skillstrikee@gmail.com',
+  font_family: 'Poppins, sans-serif',
+  font_size: 16
+};
+
+if (window.elementSdk) {
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => {
+      document.getElementById('navTitle').textContent = config.platform_title || defaultConfig.platform_title;
+      document.getElementById('heroTitle').textContent = config.platform_title || defaultConfig.platform_title;
+      document.getElementById('heroTagline').textContent = config.tagline || defaultConfig.tagline;
+      document.getElementById('contactLocation').textContent = config.location || defaultConfig.location;
+      document.getElementById('contactPhone').textContent = config.phone || defaultConfig.phone;
+      document.getElementById('contactEmail').textContent = config.email || defaultConfig.email;
+    },
+    mapToCapabilities: (config) => ({
+      recolorables: [],
+      borderables: [],
+      fontEditable: undefined,
+      fontSizeable: undefined
+    }),
+    mapToEditPanelValues: (config) => new Map([
+      ['platform_title', config.platform_title || defaultConfig.platform_title],
+      ['tagline', config.tagline || defaultConfig.tagline],
+      ['location', config.location || defaultConfig.location],
+      ['phone', config.phone || defaultConfig.phone],
+      ['email', config.email || defaultConfig.email]
+    ])
+  });
+}
+
+lucide.createIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e807cd3963933d8',t:'MTc3NTQ3NTMxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
