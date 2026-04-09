@@ -1,851 +1,1235 @@
 <!doctype html>
-<html lang="en" class="h-full">
+<html lang="en">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SkillStrike - Affiliate Marketing Platform</title>
+  <title>SkillStrike - Master Your Skills, Build Your Empire</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <script src="/_sdk/element_sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            heading: ['Poppins', 'sans-serif'],
-            body: ['Poppins', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
   <style>
-  html, body { height: 100%; margin: 0; }
-  * { box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-  }
+        /* Animated Background Particles */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
 
-  .animate-fade-up { animation: fadeUp 0.6s ease-out forwards; }
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
 
-  .card-hover { 
-    transition: all 0.3s ease;
-    position: relative;
-  }
+        html, body {
+            height: 100%;
+        }
 
-  .card-hover:hover { 
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  }
+        /* Glowing Effects */
+        .glow-blue {
+            box-shadow: 0 0 20px rgba(0, 150, 255, 0.5), inset 0 0 20px rgba(0, 150, 255, 0.1);
+        }
 
-  .nav-link { 
-    position: relative; 
-    transition: all 0.3s ease;
-    color: inherit;
-  }
+        .glow-blue-hover:hover {
+            box-shadow: 0 0 30px rgba(0, 150, 255, 0.8), inset 0 0 20px rgba(0, 150, 255, 0.2);
+            transform: translateY(-2px);
+        }
 
-  .nav-link:hover { 
-    color: #3b82f6;
-  }
+        .glow-button {
+            background: linear-gradient(135deg, #0096ff 0%, #0066cc 100%);
+            box-shadow: 0 0 15px rgba(0, 150, 255, 0.5);
+            transition: all 0.3s ease;
+        }
 
-  .nav-link.active { 
-    color: #3b82f6;
-    font-weight: 600;
-  }
+        .glow-button:hover {
+            box-shadow: 0 0 30px rgba(0, 150, 255, 0.8), 0 0 60px rgba(0, 150, 255, 0.4);
+            transform: scale(1.05);
+        }
 
-  .primary-btn {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    transition: all 0.3s ease;
-  }
+        .glow-button:active {
+            transform: scale(0.98);
+        }
 
-  .primary-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
-  }
+        /* 3D Card Effect */
+        .card-3d {
+            background: linear-gradient(135deg, rgba(20, 30, 50, 0.8) 0%, rgba(10, 15, 35, 0.8) 100%);
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-  .secondary-btn {
-    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
-    transition: all 0.3s ease;
-  }
+        .card-3d::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 150, 255, 0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
 
-  .secondary-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(107, 114, 128, 0.2);
-  }
+        .card-3d:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: 0 20px 50px rgba(0, 150, 255, 0.3);
+            border-color: rgba(0, 150, 255, 0.6);
+        }
 
-  input:focus, select:focus { 
-    outline: none; 
-    border-color: #3b82f6 !important; 
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  }
+        /* Animated Title */
+        @keyframes titleGlow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(0, 150, 255, 0.5), 0 0 20px rgba(0, 150, 255, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(0, 150, 255, 0.8), 0 0 40px rgba(0, 150, 255, 0.5);
+            }
+        }
 
-  .tier-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+        .title-glow {
+            animation: titleGlow 3s ease-in-out infinite;
+        }
 
-  .tier-table th {
-    background: #f3f4f6;
-    border: 1px solid #e5e7eb;
-    padding: 1rem;
-    text-align: left;
-    color: #374151;
-    font-weight: 600;
-  }
+        /* Fade In Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-  .tier-table td {
-    border: 1px solid #e5e7eb;
-    padding: 1rem;
-    color: #6b7280;
-  }
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
 
-  .tier-table tr:hover {
-    background: #f9fafb;
-  }
+        /* Smooth Transitions */
+        .page {
+            display: none;
+            position: relative;
+            z-index: 10;
+        }
 
-  ::-webkit-scrollbar { width: 8px; }
-  ::-webkit-scrollbar-track { background: #f3f4f6; }
-  ::-webkit-scrollbar-thumb { 
-    background: #3b82f6;
-    border-radius: 4px;
-  }
+        .page.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
 
-  .leader-profile {
-    position: relative;
-    overflow: hidden;
-  }
+        /* Navigation */
+        nav {
+            background: rgba(10, 10, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 150, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-  .leader-profile::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent);
-    pointer-events: none;
-  }
+        nav button {
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
 
-  .float-bounce {
-    animation: float 3s ease-in-out infinite;
-  }
-</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+        nav button:hover {
+            border-color: rgba(0, 150, 255, 0.5);
+            color: #0096ff;
+        }
+
+        nav button.active {
+            color: #0096ff;
+            border-color: #0096ff;
+            box-shadow: 0 0 10px rgba(0, 150, 255, 0.5);
+        }
+
+        /* Level Colors */
+        .level-newbie { color: #808080; }
+        .level-starter { color: #4169e1; }
+        .level-builder { color: #00ced1; }
+        .level-hustler { color: #32cd32; }
+        .level-pro { color: #ffd700; }
+        .level-closer { color: #ff8c00; }
+        .level-leader { color: #ff4500; }
+        .level-influencer { color: #ff1493; }
+        .level-icon { color: #9932cc; }
+        .level-legend { color: #00ff7f; }
+
+        /* Input Styling */
+        input, select, textarea {
+            background: rgba(20, 30, 50, 0.8);
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #0096ff;
+            box-shadow: 0 0 15px rgba(0, 150, 255, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card-3d:hover {
+                transform: translateY(-4px);
+            }
+        }
+    </style>
   <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
- <body class="h-full font-body" style="background: #ffffff; color: #374151;">
-  <div id="app-wrapper" class="h-full w-full overflow-auto" style="background: #ffffff; color: #374151;"><!-- Navigation -->
-   <header id="mainNav" class="sticky top-0 z-40 border-b border-gray-200" style="background: #ffffff;">
-    <nav class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-     <div class="flex items-center gap-2">
-      <div class="w-9 h-9 rounded-lg flex items-center justify-center font-heading font-bold text-white" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
-       S
-      </div><span id="navTitle" class="font-heading font-bold text-lg" style="color: #1f2937;">SkillStrike</span>
-     </div>
-     <div class="hidden md:flex items-center gap-8"><button onclick="navigateTo('home')" class="nav-link text-sm font-medium text-gray-600" data-nav="home">Home</button> <button onclick="navigateTo('courses')" class="nav-link text-sm font-medium text-gray-600" data-nav="courses">Courses</button> <button onclick="navigateTo('levels')" class="nav-link text-sm font-medium text-gray-600" data-nav="levels">Levels</button> <button onclick="navigateTo('leaders')" class="nav-link text-sm font-medium text-gray-600" data-nav="leaders">Leaders</button> <button onclick="navigateTo('affiliate')" class="nav-link text-sm font-medium text-gray-600" data-nav="affiliate">Affiliate</button> <button onclick="navigateTo('contact')" class="nav-link text-sm font-medium text-gray-600" data-nav="contact">Contact</button>
-     </div><button onclick="toggleMobileMenu()" class="md:hidden text-gray-600"><i data-lucide="menu" style="width:24px;height:24px;"></i></button>
-    </nav>
-    <div id="mobileMenu" class="hidden md:hidden px-4 pb-4 space-y-2"><button onclick="navigateTo('home');toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded text-gray-600 hover:bg-gray-100 text-sm">Home</button> <button onclick="navigateTo('courses');toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded text-gray-600 hover:bg-gray-100 text-sm">Courses</button> <button onclick="navigateTo('levels');toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded text-gray-600 hover:bg-gray-100 text-sm">Levels</button> <button onclick="navigateTo('leaders');toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded text-gray-600 hover:bg-gray-100 text-sm">Leaders</button> <button onclick="navigateTo('affiliate');toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded text-gray-600 hover:bg-gray-100 text-sm">Affiliate</button> <button onclick="navigateTo('contact');toggleMobileMenu()" class="block w-full text-left py-2 px-3 rounded text-gray-600 hover:bg-gray-100 text-sm">Contact</button>
+ <body><!-- Animated Particle Background -->
+  <canvas id="particle-canvas"></canvas><!-- Navigation -->
+  <nav class="flex items-center justify-between p-4 md:p-6">
+   <div class="flex items-center gap-3">
+    <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center font-bold text-lg glow-blue">
+     SS
     </div>
-   </header><!-- Main Content -->
-   <main id="mainContent" class="max-w-7xl mx-auto px-4 py-6"><!-- HOME PAGE -->
-    <section id="page-home" class="page-section">
-     <div class="text-center py-16 animate-fade-up">
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold mb-6" style="background: #dbeafe; color: #1e40af;"><i data-lucide="zap" style="width:14px;height:14px;"></i> AFFILIATE MARKETING PLATFORM
+    <h1 class="text-xl md:text-2xl font-bold title-glow">SkillStrike</h1>
+   </div><!-- Desktop Navigation -->
+   <div class="hidden md:flex gap-4"><button onclick="navigateTo('home')" class="nav-btn active px-4 py-2 rounded-lg text-sm font-medium transition">Home</button> <button onclick="navigateTo('courses')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition">Courses</button> <button onclick="navigateTo('team')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition">Team</button> <button onclick="navigateTo('settings')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition">Settings</button> <button onclick="navigateTo('contact')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition">Contact</button> <button onclick="toggleAuth()" class="glow-button px-4 py-2 rounded-lg text-sm font-medium text-white">Sign In</button>
+   </div><!-- Mobile Menu Toggle --> <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-blue-500/20"> <i data-lucide="menu" class="w-6 h-6"></i> </button>
+  </nav><!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-black/90 border-b border-blue-500/30 p-4 space-y-2"><button onclick="navigateTo('home'); toggleMobileMenu()" class="w-full text-left px-4 py-2 rounded hover:bg-blue-500/20">Home</button> <button onclick="navigateTo('courses'); toggleMobileMenu()" class="w-full text-left px-4 py-2 rounded hover:bg-blue-500/20">Courses</button> <button onclick="navigateTo('team'); toggleMobileMenu()" class="w-full text-left px-4 py-2 rounded hover:bg-blue-500/20">Team</button> <button onclick="navigateTo('settings'); toggleMobileMenu()" class="w-full text-left px-4 py-2 rounded hover:bg-blue-500/20">Settings</button> <button onclick="navigateTo('contact'); toggleMobileMenu()" class="w-full text-left px-4 py-2 rounded hover:bg-blue-500/20">Contact</button> <button onclick="toggleAuth(); toggleMobileMenu()" class="w-full glow-button px-4 py-2 rounded text-white font-medium">Sign In</button>
+  </div><!-- Main Content -->
+  <div class="main-content relative z-20"><!-- HOME PAGE -->
+   <div id="home" class="page active min-h-screen overflow-auto">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-20"><!-- Hero Section -->
+     <div class="text-center mb-16 fade-in-up">
+      <h2 class="text-4xl md:text-6xl font-bold mb-4 title-glow">Master Your Skills</h2>
+      <p class="text-lg md:text-xl text-blue-200 mb-8">Build Your Empire with SkillStrike AI Learning Platform</p>
+      <div class="flex flex-col md:flex-row gap-4 justify-center"><button onclick="navigateTo('courses')" class="glow-button px-8 py-3 rounded-lg font-semibold text-white">Explore Courses</button> <button onclick="navigateTo('profile')" class="border-2 border-blue-500 px-8 py-3 rounded-lg font-semibold text-blue-400 hover:bg-blue-500/10 transition">Dashboard</button>
       </div>
-      <h1 id="heroTitle" class="font-heading text-5xl md:text-6xl font-bold mb-4" style="color: #1f2937;">SkillStrike</h1>
-      <p id="heroTagline" class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto" style="color: #6b7280;">Earn While You Learn &amp; Teach</p>
-      <div class="flex flex-wrap justify-center gap-4"><button onclick="navigateTo('courses')" class="px-8 py-3 rounded-lg font-semibold text-white primary-btn"> Explore Courses <i data-lucide="arrow-right" style="width:18px;height:18px;display:inline;vertical-align:middle;margin-left:6px;"></i> </button> <button onclick="navigateTo('affiliate')" class="px-8 py-3 rounded-lg font-semibold text-white secondary-btn"> Join as Affiliate <i data-lucide="users" style="width:18px;height:18px;display:inline;vertical-align:middle;margin-left:6px;"></i> </button>
-      </div>
-     </div><!-- Stats -->
-     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-      <div class="text-center p-6 rounded-lg bg-blue-50 border border-blue-200">
-       <div class="font-heading text-3xl font-bold" style="color: #3b82f6;">
-        3
-       </div>
-       <div class="text-sm mt-2" style="color: #3b82f6;">
-        Courses
-       </div>
-      </div>
-      <div class="text-center p-6 rounded-lg bg-blue-50 border border-blue-200">
-       <div class="font-heading text-3xl font-bold" style="color: #3b82f6;">
-        10
-       </div>
-       <div class="text-sm mt-2" style="color: #3b82f6;">
-        Affiliate Levels
-       </div>
-      </div>
-      <div class="text-center p-6 rounded-lg bg-blue-50 border border-blue-200">
-       <div class="font-heading text-3xl font-bold" style="color: #3b82f6;">
-        70%
-       </div>
-       <div class="text-sm mt-2" style="color: #3b82f6;">
-        Commissions
-       </div>
-      </div>
-      <div class="text-center p-6 rounded-lg bg-blue-50 border border-blue-200">
-       <div class="font-heading text-3xl font-bold" style="color: #3b82f6;">
-        ∞
-       </div>
-       <div class="text-sm mt-2" style="color: #3b82f6;">
-        Earnings
-       </div>
-      </div>
-     </div><!-- Key Features -->
+     </div><!-- Featured Courses -->
      <div class="mb-16">
-      <h2 class="font-heading text-3xl font-bold text-center mb-12" style="color: #1f2937;">How SkillStrike Affiliate Works</h2>
-      <div class="grid md:grid-cols-3 gap-8">
-       <div class="p-8 rounded-lg border border-gray-200 bg-white card-hover">
-        <div class="w-14 h-14 rounded-lg mb-4 flex items-center justify-center" style="background: #dbeafe;">
-         <i data-lucide="gift" style="width:28px;height:28px;color:#3b82f6;"></i>
+      <h3 class="text-2xl md:text-3xl font-bold mb-8">Featured Courses</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6"><!-- Course Card 1 -->
+       <div class="card-3d p-6 rounded-lg text-center hover:glow-blue-hover">
+        <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg mx-auto mb-4 flex items-center justify-center"><i data-lucide="share-2" class="w-8 h-8 text-white"></i>
         </div>
-        <h3 class="font-heading font-bold text-lg mb-2" style="color: #1f2937;">Earn Commissions</h3>
-        <p class="text-gray-600">Get 70% commission on every course sale + 50% SkillPoints bonus</p>
-       </div>
-       <div class="p-8 rounded-lg border border-gray-200 bg-white card-hover">
-        <div class="w-14 h-14 rounded-lg mb-4 flex items-center justify-center" style="background: #dbeafe;">
-         <i data-lucide="trending-up" style="width:28px;height:28px;color:#3b82f6;"></i>
+        <h4 class="text-xl font-bold mb-2">Social Media Marketing</h4>
+        <p class="text-gray-400 mb-4 text-sm">Master the art of social selling</p>
+        <p class="text-3xl font-bold text-blue-400 mb-6">₹2999</p><button onclick="navigateTo('courses')" class="glow-button w-full py-2 rounded-lg font-semibold text-white">Enroll Now</button>
+       </div><!-- Course Card 2 -->
+       <div class="card-3d p-6 rounded-lg text-center hover:glow-blue-hover">
+        <div class="w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-lg mx-auto mb-4 flex items-center justify-center"><i data-lucide="target" class="w-8 h-8 text-white"></i>
         </div>
-        <h3 class="font-heading font-bold text-lg mb-2" style="color: #1f2937;">Level Up Fast</h3>
-        <p class="text-gray-600">Climb from Newbie to Legend with SkillPoints system</p>
-       </div>
-       <div class="p-8 rounded-lg border border-gray-200 bg-white card-hover">
-        <div class="w-14 h-14 rounded-lg mb-4 flex items-center justify-center" style="background: #dbeafe;">
-         <i data-lucide="users-round" style="width:28px;height:28px;color:#3b82f6;"></i>
+        <h4 class="text-xl font-bold mb-2">Lead Generation</h4>
+        <p class="text-gray-400 mb-4 text-sm">Generate high-quality leads</p>
+        <p class="text-3xl font-bold text-blue-400 mb-6">₹4999</p><button onclick="navigateTo('courses')" class="glow-button w-full py-2 rounded-lg font-semibold text-white">Enroll Now</button>
+       </div><!-- Course Card 3 -->
+       <div class="card-3d p-6 rounded-lg text-center hover:glow-blue-hover">
+        <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-blue-600 rounded-lg mx-auto mb-4 flex items-center justify-center"><i data-lucide="sparkles" class="w-8 h-8 text-white"></i>
         </div>
-        <h3 class="font-heading font-bold text-lg mb-2" style="color: #1f2937;">Build Your Network</h3>
-        <p class="text-gray-600">Earn 30% from your downline's sales + 50% SP bonus</p>
+        <h4 class="text-xl font-bold mb-2">AI Generation</h4>
+        <p class="text-gray-400 mb-4 text-sm">Harness AI power for growth</p>
+        <p class="text-3xl font-bold text-blue-400 mb-6">₹6999</p><button onclick="navigateTo('courses')" class="glow-button w-full py-2 rounded-lg font-semibold text-white">Enroll Now</button>
        </div>
       </div>
-     </div>
-    </section><!-- COURSES PAGE -->
-    <section id="page-courses" class="page-section hidden">
-     <h2 class="font-heading text-3xl font-bold text-center mb-4" style="color: #1f2937;">Premium Courses</h2>
-     <p class="text-center mb-12 text-gray-600">Sell these high-value courses and earn massive commissions</p>
-     <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto"><!-- Course 1 -->
-      <div class="rounded-lg overflow-hidden border border-gray-200 bg-white card-hover">
-       <div class="h-40 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-50">
-        <i data-lucide="share-2" style="width:48px;height:48px;color:#3b82f6;"></i>
-       </div>
-       <div class="p-6">
-        <div class="text-xs font-semibold mb-2" style="color:#3b82f6;">
-         COURSE 1
-        </div>
-        <h3 class="font-heading text-lg font-bold mb-2" style="color: #1f2937;">Social Media Marketing</h3>
-        <p class="text-sm text-gray-600 mb-4">Master social platforms to drive sales and build brand presence.</p>
-        <div class="mb-4 space-y-2 text-sm">
-         <div>
-          <span style="color: #ef4444;">₹2,999</span> • <span style="color: #3b82f6;">Your Commission: ₹2,099</span>
-         </div>
-         <div style="color: #6b7280;">
-          SkillPoints for Selling: 300 SP
-         </div>
-         <div style="color: #3b82f6;">
-          Your Upline Bonus: 150 SP (50%)
-         </div>
-        </div>
-        <div class="flex items-center justify-between">
-         <div class="text-xs text-gray-500">
-          ~10 Hours
-         </div><button class="px-3 py-1 rounded text-xs font-semibold text-white primary-btn">View Details</button>
-        </div>
-       </div>
-      </div><!-- Course 2 -->
-      <div class="rounded-lg overflow-hidden border border-gray-200 bg-white card-hover">
-       <div class="h-40 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-50">
-        <i data-lucide="target" style="width:48px;height:48px;color:#3b82f6;"></i>
-       </div>
-       <div class="p-6">
-        <div class="text-xs font-semibold mb-2" style="color:#3b82f6;">
-         COURSE 2
-        </div>
-        <h3 class="font-heading text-lg font-bold mb-2" style="color: #1f2937;">Leads Generation</h3>
-        <p class="text-sm text-gray-600 mb-4">Learn proven techniques to generate high-quality leads consistently.</p>
-        <div class="mb-4 space-y-2 text-sm">
-         <div>
-          <span style="color: #ef4444;">₹4,999</span> • <span style="color: #3b82f6;">Your Commission: ₹3,499</span>
-         </div>
-         <div style="color: #6b7280;">
-          SkillPoints for Selling: 500 SP
-         </div>
-         <div style="color: #3b82f6;">
-          Your Upline Bonus: 250 SP (50%)
-         </div>
-        </div>
-        <div class="flex items-center justify-between">
-         <div class="text-xs text-gray-500">
-          ~15 Hours
-         </div><button class="px-3 py-1 rounded text-xs font-semibold text-white primary-btn">View Details</button>
-        </div>
-       </div>
-      </div><!-- Course 3 -->
-      <div class="rounded-lg overflow-hidden border border-gray-200 bg-white card-hover">
-       <div class="h-40 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-50">
-        <i data-lucide="cpu" style="width:48px;height:48px;color:#3b82f6;"></i>
-       </div>
-       <div class="p-6">
-        <div class="text-xs font-semibold mb-2" style="color:#3b82f6;">
-         COURSE 3
-        </div>
-        <h3 class="font-heading text-lg font-bold mb-2" style="color: #1f2937;">AI Generation</h3>
-        <p class="text-sm text-gray-600 mb-4">Harness AI tools to automate and scale your marketing efforts.</p>
-        <div class="mb-4 space-y-2 text-sm">
-         <div>
-          <span style="color: #ef4444;">₹6,999</span> • <span style="color: #3b82f6;">Your Commission: ₹4,899</span>
-         </div>
-         <div style="color: #6b7280;">
-          SkillPoints for Selling: 700 SP
-         </div>
-         <div style="color: #3b82f6;">
-          Your Upline Bonus: 350 SP (50%)
-         </div>
-        </div>
-        <div class="flex items-center justify-between">
-         <div class="text-xs text-gray-500">
-          ~20 Hours
-         </div><button class="px-3 py-1 rounded text-xs font-semibold text-white primary-btn">View Details</button>
-        </div>
-       </div>
+     </div><!-- Stats Section -->
+     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+      <div class="card-3d p-6 rounded-lg text-center">
+       <p class="text-4xl font-bold text-blue-400">5000+</p>
+       <p class="text-gray-400 mt-2">Active Users</p>
       </div>
-     </div>
-    </section><!-- LEVELS PAGE -->
-    <section id="page-levels" class="page-section hidden">
-     <h2 class="font-heading text-3xl font-bold text-center mb-4" style="color: #1f2937;">Affiliate Levels &amp; SkillPoints</h2>
-     <p class="text-center mb-12 text-gray-600">Climb the ladder and unlock exclusive rewards at each level</p><!-- Level Cards Showcase -->
-     <div class="grid md:grid-cols-5 gap-4 mb-16">
-      <div class="p-4 rounded-lg text-center border border-gray-200 bg-blue-50 card-hover">
-       <div style="font-size: 2rem; margin-bottom: 0.5rem;">
-        🌱
-       </div>
-       <h3 class="font-heading font-bold mb-2" style="color: #1f2937;">Newbie</h3>
-       <div style="color: #3b82f6; font-size: 1.25rem; font-weight: 700;">
-        1,000 SP
-       </div>
-       <p class="text-xs mt-2 text-gray-600">Your first step into affiliate marketing</p>
+      <div class="card-3d p-6 rounded-lg text-center">
+       <p class="text-4xl font-bold text-blue-400">₹50L+</p>
+       <p class="text-gray-400 mt-2">Distributed</p>
       </div>
-      <div class="p-4 rounded-lg text-center border border-gray-200 bg-blue-50 card-hover">
-       <div style="font-size: 2rem; margin-bottom: 0.5rem;">
-        ⚡
-       </div>
-       <h3 class="font-heading font-bold mb-2" style="color: #1f2937;">Starter</h3>
-       <div style="color: #3b82f6; font-size: 1.25rem; font-weight: 700;">
-        1,500 SP
-       </div>
-       <p class="text-xs mt-2 text-gray-600">Building your first sales</p>
+      <div class="card-3d p-6 rounded-lg text-center">
+       <p class="text-4xl font-bold text-blue-400">50+</p>
+       <p class="text-gray-400 mt-2">Courses</p>
       </div>
-      <div class="p-4 rounded-lg text-center border border-gray-200 bg-blue-50 card-hover">
-       <div style="font-size: 2rem; margin-bottom: 0.5rem;">
-        🔨
-       </div>
-       <h3 class="font-heading font-bold mb-2" style="color: #1f2937;">Builder</h3>
-       <div style="color: #3b82f6; font-size: 1.25rem; font-weight: 700;">
-        2,000 SP
-       </div>
-       <p class="text-xs mt-2 text-gray-600">Creating your network</p>
+      <div class="card-3d p-6 rounded-lg text-center">
+       <p class="text-4xl font-bold text-blue-400">10 Levels</p>
+       <p class="text-gray-400 mt-2">Progression</p>
       </div>
-      <div class="p-4 rounded-lg text-center border border-gray-200 bg-blue-50 card-hover">
-       <div style="font-size: 2rem; margin-bottom: 0.5rem;">
-        🚀
-       </div>
-       <h3 class="font-heading font-bold mb-2" style="color: #1f2937;">Hustler</h3>
-       <div style="color: #3b82f6; font-size: 1.25rem; font-weight: 700;">
-        3,000 SP
-       </div>
-       <p class="text-xs mt-2 text-gray-600">Serious earnings begin</p>
-      </div>
-      <div class="p-4 rounded-lg text-center border border-gray-200 bg-blue-50 card-hover">
-       <div style="font-size: 2rem; margin-bottom: 0.5rem;">
-        💎
-       </div>
-       <h3 class="font-heading font-bold mb-2" style="color: #1f2937;">Pro</h3>
-       <div style="color: #3b82f6; font-size: 1.25rem; font-weight: 700;">
-        5,000 SP
-       </div>
-       <p class="text-xs mt-2 text-gray-600">Professional affiliate</p>
-      </div>
-     </div><!-- Full Level Table -->
-     <div class="mb-8 rounded-lg overflow-hidden border border-gray-200">
-      <table class="tier-table">
-       <thead>
-        <tr>
-         <th>Level</th>
-         <th>SkillPoints Required</th>
-         <th>Earnings Potential</th>
-         <th>Rewards</th>
-        </tr>
-       </thead>
-       <tbody>
-        <tr>
-         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Newbie</td>
-         <td>1,000 SP</td>
-         <td>Entry Level</td>
-         <td>Basic Dashboard</td>
-        </tr>
-        <tr>
-         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Starter</td>
-         <td>1,500 SP</td>
-         <td>₹30,000+</td>
-         <td>Marketing Materials</td>
-        </tr>
-        <tr>
-         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Builder</td>
-         <td>2,000 SP</td>
-         <td>₹100,000+</td>
-         <td>Priority Support</td>
-        </tr>
-        <tr>
-         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Hustler</td>
-         <td>3,000 SP</td>
-         <td>₹300,000+</td>
-         <td>Exclusive Training</td>
-        </tr>
-        <tr>
-         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Pro</td>
-         <td>5,000 SP</td>
-         <td>₹1,000,000+</td>
-         <td>VIP Mentoring</td>
-        </tr>
-        <tr>
-         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Closer</td>
-         <td>8,000 SP</td>
-         <td>₹3,000,000+</td>
-         <td>Revenue Share</td>
-        </tr>
-        <tr>
-         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Leader</td>
-         <td>12,000 SP</td>
-         <td>₹8,000,000+</td>
-         <td>Co-marketing Rights</td>
-        </tr>
-        <tr>
-         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Influencer</td>
-         <td>18,000 SP</td>
-         <td>₹20,000,000+</td>
-         <td>Brand Ambassador</td>
-        </tr>
-        <tr>
-         <td><i data-lucide="chevron-right" style="width:16px;height:16px;display:inline;margin-right:6px;"></i> Icon</td>
-         <td>25,000 SP</td>
-         <td>₹50,000,000+</td>
-         <td>Executive Benefits</td>
-        </tr>
-        <tr>
-         <td><i data-lucide="crown" style="width:16px;height:16px;display:inline;margin-right:6px;color:#3b82f6;"></i> Legend</td>
-         <td>40,000 SP</td>
-         <td>Unlimited</td>
-         <td>Hall of Fame</td>
-        </tr>
-       </tbody>
-      </table>
-     </div><!-- SkillPoints Info -->
-     <div class="grid md:grid-cols-2 gap-6 mb-8">
-      <div class="p-6 rounded-lg border border-gray-200 bg-gray-50">
-       <h3 class="font-heading font-bold mb-4 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="zap" style="width:20px;height:20px;color:#3b82f6;"></i> How You Earn SkillPoints</h3>
-       <ul class="space-y-2 text-gray-700">
-        <li class="flex gap-2"><span style="color:#3b82f6; font-weight:700;">•</span> Sell Course 1 (₹2,999) → <span style="color:#3b82f6; font-weight:600;">300 SP</span></li>
-        <li class="flex gap-2"><span style="color:#3b82f6; font-weight:700;">•</span> Sell Course 2 (₹4,999) → <span style="color:#3b82f6; font-weight:600;">500 SP</span></li>
-        <li class="flex gap-2"><span style="color:#3b82f6; font-weight:700;">•</span> Sell Course 3 (₹6,999) → <span style="color:#3b82f6; font-weight:600;">700 SP</span></li>
-        <li class="flex gap-2 pt-2" style="border-top: 1px solid #e5e7eb;"><span style="color:#3b82f6; font-weight:700;">+</span> <span style="color:#3b82f6; font-weight:600;">50% Bonus SP</span> from your upline's sales</li>
-       </ul>
-      </div>
-      <div class="p-6 rounded-lg border border-gray-200 bg-gray-50">
-       <h3 class="font-heading font-bold mb-4 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="trending-up" style="width:20px;height:20px;color:#3b82f6;"></i> Your Earnings Structure</h3>
-       <ul class="space-y-2 text-gray-700">
-        <li class="flex gap-2"><span style="color:#3b82f6; font-weight:700;">💰</span> <span style="color:#3b82f6; font-weight:600;">70%</span> commission on direct sales</li>
-        <li class="flex gap-2"><span style="color:#3b82f6; font-weight:700;">💰</span> <span style="color:#3b82f6; font-weight:600;">30%</span> from downline member sales</li>
-        <li class="flex gap-2"><span style="color:#3b82f6; font-weight:700;">💰</span> Unlimited depth in your network</li>
-        <li class="flex gap-2 pt-2" style="border-top: 1px solid #e5e7eb;"><span style="color:#3b82f6; font-weight:600;">Income compounds as you level up!</span></li>
-       </ul>
-      </div>
-     </div>
-    </section><!-- LEADERS PAGE -->
-    <section id="page-leaders" class="page-section hidden">
-     <h2 class="font-heading text-3xl font-bold text-center mb-4" style="color: #1f2937;">Meet Our Leaders</h2>
-     <p class="text-center mb-12 text-gray-600">The visionary team behind SkillStrike's success</p>
-     <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto mb-16">
-      <!-- Founder -->
-      <div class="text-center">
-       <div class="mb-6 inline-block">
-        <div class="w-40 h-40 rounded-full mx-auto flex items-center justify-center mb-6 leader-profile float-bounce" style="background: linear-gradient(135deg, #3b82f6, #2563eb); box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);"><i data-lucide="crown" style="width:80px;height:80px;color:white;"></i>
-        </div>
-       </div>
-       <h3 class="font-heading text-2xl font-bold mb-2" style="color: #1f2937;">Siddharth</h3>
-       <div class="text-sm font-semibold mb-4" style="color: #3b82f6;">
-        Founder &amp; Visionary
-       </div>
-       <p class="text-gray-600 mb-6 leading-relaxed">With a passion for empowering entrepreneurs, Siddharth founded SkillStrike to revolutionize affiliate marketing. His strategic vision and commitment to excellence drive the platform's continuous growth and innovation.</p>
-       <div class="space-y-2 text-sm">
-        <div class="flex items-center justify-center gap-2 text-gray-600">
-         <i data-lucide="target" style="width:16px;height:16px;color:#3b82f6;"></i> <span>Building the future of affiliate marketing</span>
-        </div>
-        <div class="flex items-center justify-center gap-2 text-gray-600">
-         <i data-lucide="star" style="width:16px;height:16px;color:#3b82f6;"></i> <span>Mentor to 1000+ affiliates</span>
-        </div>
-        <div class="flex items-center justify-center gap-2 text-gray-600">
-         <i data-lucide="trending-up" style="width:16px;height:16px;color:#3b82f6;"></i> <span>10+ years in digital business</span>
-        </div>
-       </div>
-      </div><!-- Co-founder -->
-      <div class="text-center">
-       <div class="mb-6 inline-block">
-        <div class="w-40 h-40 rounded-full mx-auto flex items-center justify-center mb-6 leader-profile float-bounce" style="background: linear-gradient(135deg, #06b6d4, #0891b2); box-shadow: 0 10px 40px rgba(6, 182, 212, 0.4); animation-delay: 0.3s;"><i data-lucide="zap" style="width:80px;height:80px;color:white;"></i>
-        </div>
-       </div>
-       <h3 class="font-heading text-2xl font-bold mb-2" style="color: #1f2937;">Dishant</h3>
-       <div class="text-sm font-semibold mb-4" style="color: #0891b2;">
-        Co-Founder &amp; Operations Lead
-       </div>
-       <p class="text-gray-600 mb-6 leading-relaxed">Dishant brings operational excellence and technical expertise to SkillStrike. His focus on system optimization and user experience ensures every affiliate enjoys seamless platform functionality and maximum earning potential.</p>
-       <div class="space-y-2 text-sm">
-        <div class="flex items-center justify-center gap-2 text-gray-600">
-         <i data-lucide="settings" style="width:16px;height:16px;color:#0891b2;"></i> <span>System architecture &amp; optimization</span>
-        </div>
-        <div class="flex items-center justify-center gap-2 text-gray-600">
-         <i data-lucide="activity" style="width:16px;height:16px;color:#0891b2;"></i> <span>Technical innovation lead</span>
-        </div>
-        <div class="flex items-center justify-center gap-2 text-gray-600">
-         <i data-lucide="users" style="width:16px;height:16px;color:#0891b2;"></i> <span>Community growth strategist</span>
-        </div>
-       </div>
-      </div>
-     </div><!-- Vision Section -->
-     <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-      <div class="p-6 rounded-lg border border-gray-200 bg-white card-hover text-center">
-       <div class="w-12 h-12 rounded-lg mb-4 flex items-center justify-center mx-auto" style="background: #dbeafe;">
-        <i data-lucide="lightbulb" style="width:24px;height:24px;color:#3b82f6;"></i>
-       </div>
-       <h4 class="font-heading font-bold mb-2" style="color: #1f2937;">Our Mission</h4>
-       <p class="text-sm text-gray-600">Empower individuals to build sustainable income through ethical affiliate marketing</p>
-      </div>
-      <div class="p-6 rounded-lg border border-gray-200 bg-white card-hover text-center">
-       <div class="w-12 h-12 rounded-lg mb-4 flex items-center justify-center mx-auto" style="background: #dbeafe;">
-        <i data-lucide="eye" style="width:24px;height:24px;color:#3b82f6;"></i>
-       </div>
-       <h4 class="font-heading font-bold mb-2" style="color: #1f2937;">Our Vision</h4>
-       <p class="text-sm text-gray-600">Create a global community of successful, well-trained affiliate marketers</p>
-      </div>
-      <div class="p-6 rounded-lg border border-gray-200 bg-white card-hover text-center">
-       <div class="w-12 h-12 rounded-lg mb-4 flex items-center justify-center mx-auto" style="background: #dbeafe;">
-        <i data-lucide="award" style="width:24px;height:24px;color:#3b82f6;"></i>
-       </div>
-       <h4 class="font-heading font-bold mb-2" style="color: #1f2937;">Our Values</h4>
-       <p class="text-sm text-gray-600">Transparency, integrity, and consistent support for every team member</p>
-      </div>
-     </div>
-    </section><!-- AFFILIATE PAGE -->
-    <section id="page-affiliate" class="page-section hidden">
-     <h2 class="font-heading text-3xl font-bold text-center mb-4" style="color: #1f2937;">Affiliate Program Details</h2>
-     <p class="text-center mb-12 text-gray-600">Everything you need to succeed as a SkillStrike affiliate</p><!-- Commission Structure -->
-     <div class="mb-12">
-      <h3 class="font-heading text-2xl font-bold mb-6" style="color: #1f2937;">Commission &amp; Referral System</h3>
-      <div class="grid md:grid-cols-2 gap-6">
-       <div class="p-8 rounded-lg border border-gray-200 bg-white">
-        <h4 class="font-heading font-bold mb-4 text-lg flex items-center gap-2" style="color: #1f2937;"><i data-lucide="gift" style="width:24px;height:24px;color:#3b82f6;"></i> Direct Sales Commission</h4>
-        <div class="space-y-3 text-gray-700">
-         <div class="flex justify-between items-center pb-2" style="border-bottom: 1px solid #e5e7eb;"><span>Social Media Marketing</span> <span style="color: #3b82f6; font-weight: 700;">₹2,099 (70%)</span>
-         </div>
-         <div class="flex justify-between items-center pb-2" style="border-bottom: 1px solid #e5e7eb;"><span>Leads Generation</span> <span style="color: #3b82f6; font-weight: 700;">₹3,499 (70%)</span>
-         </div>
-         <div class="flex justify-between items-center pb-2" style="border-bottom: 1px solid #e5e7eb;"><span>AI Generation</span> <span style="color: #3b82f6; font-weight: 700;">₹4,899 (70%)</span>
-         </div>
-         <div class="flex justify-between items-center pt-2" style="border-top: 2px solid #e5e7eb;"><span style="font-weight: 600;">Total on 1 of each</span> <span style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">₹10,497</span>
-         </div>
-        </div>
-       </div>
-       <div class="p-8 rounded-lg border border-gray-200 bg-white">
-        <h4 class="font-heading font-bold mb-4 text-lg flex items-center gap-2" style="color: #1f2937;"><i data-lucide="users-round" style="width:24px;height:24px;color:#3b82f6;"></i> Downline Referral (30%)</h4>
-        <div class="space-y-3 text-gray-700">
-         <div class="flex justify-between items-center pb-2" style="border-bottom: 1px solid #e5e7eb;"><span>Social Media Marketing</span> <span style="color: #3b82f6; font-weight: 700;">₹899 (30%)</span>
-         </div>
-         <div class="flex justify-between items-center pb-2" style="border-bottom: 1px solid #e5e7eb;"><span>Leads Generation</span> <span style="color: #3b82f6; font-weight: 700;">₹1,499 (30%)</span>
-         </div>
-         <div class="flex justify-between items-center pb-2" style="border-bottom: 1px solid #e5e7eb;"><span>AI Generation</span> <span style="color: #3b82f6; font-weight: 700;">₹2,099 (30%)</span>
-         </div>
-         <div class="flex justify-between items-center pt-2" style="border-top: 2px solid #e5e7eb;"><span style="font-weight: 600;">Total per downline sale</span> <span style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">₹4,497</span>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div><!-- Sample Earnings Scenarios -->
-     <div class="mb-12">
-      <h3 class="font-heading text-2xl font-bold mb-6" style="color: #1f2937;">Earnings Scenarios</h3>
-      <div class="space-y-4">
-       <div class="p-6 rounded-lg border border-gray-200 bg-blue-50">
-        <h4 class="font-heading font-bold mb-3" style="color: #1f2937;">Month 1: 5 Direct Sales</h4>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-gray-700">
-         <div>
-          <div class="text-sm opacity-70">
-           Your Sales
-          </div>
-          <div style="color: #3b82f6; font-weight: 700; font-size: 1.25rem;">
-           ₹10,497
-          </div>
-         </div>
-         <div>
-          <div class="text-sm opacity-70">
-           SkillPoints Earned
-          </div>
-          <div style="color: #3b82f6; font-weight: 700; font-size: 1.25rem;">
-           1,500 SP
-          </div>
-         </div>
-         <div>
-          <div class="text-sm opacity-70">
-           Level Achieved
-          </div>
-          <div style="color: #3b82f6; font-weight: 700; font-size: 1.25rem;">
-           Starter ⚡
-          </div>
-         </div>
-         <div>
-          <div class="text-sm opacity-70">
-           Unlocked
-          </div>
-          <div style="color: #3b82f6; font-weight: 700; font-size: 1.25rem;">
-           Marketing Kit
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="p-6 rounded-lg border border-gray-200 bg-blue-50">
-        <h4 class="font-heading font-bold mb-3" style="color: #1f2937;">Month 3: 20 Direct + 15 Downline</h4>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-gray-700">
-         <div>
-          <div class="text-sm opacity-70">
-           Your Direct Earnings
-          </div>
-          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
-           ₹41,988
-          </div>
-         </div>
-         <div>
-          <div class="text-sm opacity-70">
-           Downline Bonus
-          </div>
-          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
-           ₹67,455
-          </div>
-         </div>
-         <div>
-          <div class="text-sm opacity-70">
-           Combined Income
-          </div>
-          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
-           ₹109,443
-          </div>
-         </div>
-         <div>
-          <div class="text-sm opacity-70">
-           Current Level
-          </div>
-          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
-           Pro 💎
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="p-6 rounded-lg border border-gray-200 bg-blue-50">
-        <h4 class="font-heading font-bold mb-3" style="color: #1f2937;">Month 6: 50 Direct + 100 Downline</h4>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-gray-700">
-         <div>
-          <div class="text-sm opacity-70">
-           Your Direct Earnings
-          </div>
-          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
-           ₹104,970
-          </div>
-         </div>
-         <div>
-          <div class="text-sm opacity-70">
-           Downline Bonus
-          </div>
-          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
-           ₹449,700
-          </div>
-         </div>
-         <div>
-          <div class="text-sm opacity-70">
-           Combined Monthly
-          </div>
-          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
-           ₹554,670
-          </div>
-         </div>
-         <div>
-          <div class="text-sm opacity-70">
-           Current Level
-          </div>
-          <div style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;">
-           Influencer 🌟
-          </div>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div><!-- Why Join -->
-     <div class="mb-12">
-      <h3 class="font-heading text-2xl font-bold mb-6" style="color: #1f2937;">Why Join SkillStrike Affiliate?</h3>
-      <div class="grid md:grid-cols-2 gap-6">
-       <div class="p-6 rounded-lg border border-gray-200 card-hover">
-        <h4 class="font-heading font-bold mb-2 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="award" style="width:20px;height:20px;color:#3b82f6;"></i> High Commissions</h4>
-        <p class="text-gray-600">70% commission on direct sales is industry-leading</p>
-       </div>
-       <div class="p-6 rounded-lg border border-gray-200 card-hover">
-        <h4 class="font-heading font-bold mb-2 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="zap" style="width:20px;height:20px;color:#3b82f6;"></i> Gamified System</h4>
-        <p class="text-gray-600">SkillPoints levels keep you motivated and engaged</p>
-       </div>
-       <div class="p-6 rounded-lg border border-gray-200 card-hover">
-        <h4 class="font-heading font-bold mb-2 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="trending-up" style="width:20px;height:20px;color:#3b82f6;"></i> Passive Income</h4>
-        <p class="text-gray-600">Earn 30% from your downline indefinitely</p>
-       </div>
-       <div class="p-6 rounded-lg border border-gray-200 card-hover">
-        <h4 class="font-heading font-bold mb-2 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="users" style="width:20px;height:20px;color:#3b82f6;"></i> Network Building</h4>
-        <p class="text-gray-600">Unlimited depth in your affiliate network</p>
-       </div>
-       <div class="p-6 rounded-lg border border-gray-200 card-hover">
-        <h4 class="font-heading font-bold mb-2 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="star" style="width:20px;height:20px;color:#3b82f6;"></i> Premium Training</h4>
-        <p class="text-gray-600">Unlock exclusive training at higher levels</p>
-       </div>
-       <div class="p-6 rounded-lg border border-gray-200 card-hover">
-        <h4 class="font-heading font-bold mb-2 flex items-center gap-2" style="color: #1f2937;"><i data-lucide="activity" style="width:20px;height:20px;color:#3b82f6;"></i> Real-Time Tracking</h4>
-        <p class="text-gray-600">Dashboard to monitor all your earnings and stats</p>
-       </div>
-      </div>
-     </div><!-- CTA -->
-     <div class="text-center p-8 rounded-lg border border-gray-200 bg-blue-50 mb-8">
-      <h3 class="font-heading text-2xl font-bold mb-4" style="color: #1f2937;">Ready to Start Earning?</h3>
-      <p class="mb-6 text-gray-600">Join thousands of affiliates already making money with SkillStrike Contact details below</p>
-     </div>
-    </section><!-- CONTACT PAGE -->
-    <section id="page-contact" class="page-section hidden">
-     <div class="max-w-2xl mx-auto">
-      <h2 class="font-heading text-3xl font-bold text-center mb-4" style="color: #1f2937;">Get In Touch</h2>
-      <p class="text-center mb-12 text-gray-600">Have questions about our affiliate program? We'd love to hear from you</p>
-      <div class="grid md:grid-cols-2 gap-8"><!-- Contact Info -->
-       <div class="space-y-6">
-        <div class="p-6 rounded-lg border border-gray-200 card-hover">
-         <div class="flex items-start gap-4">
-          <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-blue-100">
-           <i data-lucide="map-pin" style="width:24px;height:24px;color:#3b82f6;"></i>
-          </div>
-          <div>
-           <h3 class="font-heading font-bold mb-1" style="color: #1f2937;">Location</h3>
-           <p id="contactLocation" class="text-sm text-gray-600">SK 13 Shastri Nagar, Gaziabad</p>
-          </div>
-         </div>
-        </div>
-        <div class="p-6 rounded-lg border border-gray-200 card-hover">
-         <div class="flex items-start gap-4">
-          <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-blue-100">
-           <i data-lucide="phone" style="width:24px;height:24px;color:#3b82f6;"></i>
-          </div>
-          <div>
-           <h3 class="font-heading font-bold mb-1" style="color: #1f2937;">Phone</h3>
-           <p id="contactPhone" class="text-sm text-gray-600">+91 8882728942</p>
-          </div>
-         </div>
-        </div>
-        <div class="p-6 rounded-lg border border-gray-200 card-hover">
-         <div class="flex items-start gap-4">
-          <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-blue-100">
-           <i data-lucide="mail" style="width:24px;height:24px;color:#3b82f6;"></i>
-          </div>
-          <div>
-           <h3 class="font-heading font-bold mb-1" style="color: #1f2937;">Email</h3>
-           <p id="contactEmail" class="text-sm text-gray-600">skillstrikee@gmail.com</p>
-          </div>
-         </div>
-        </div>
-       </div><!-- Message Box -->
-       <div class="p-8 rounded-lg border border-gray-200 bg-gray-50">
-        <h3 class="font-heading font-bold mb-4" style="color: #1f2937;">Send us a Message</h3>
-        <p class="mb-6 text-gray-600">Interested in joining our affiliate program? Have feedback or questions? We'll get back to you as soon as possible.</p>
-        <div class="space-y-3"><a href="tel:+918882728942" class="block w-full py-3 px-4 rounded-lg text-center font-semibold text-white primary-btn transition"> <i data-lucide="phone" style="width:16px;height:16px;display:inline;margin-right:8px;vertical-align:middle;"></i> Call Us </a> <a href="mailto:skillstrikee@gmail.com" class="block w-full py-3 px-4 rounded-lg text-center font-semibold text-white primary-btn transition"> <i data-lucide="mail" style="width:16px;height:16px;display:inline;margin-right:8px;vertical-align:middle;"></i> Send Email </a>
-        </div>
-       </div>
-      </div>
-     </div>
-    </section>
-   </main><!-- Footer -->
-   <footer class="max-w-7xl mx-auto px-4 py-8 mt-12 border-t border-gray-200">
-    <div class="text-center space-y-4">
-     <div class="text-sm text-gray-600">
-      <p><strong>SK 13 Shastri Nagar,</strong> Gaziabad</p>
-      <p>📞 +91 8882728942 | 📧 skillstrikee@gmail.com</p>
-     </div>
-     <div class="text-xs text-gray-500">
-      © 2025 SkillStrike. All rights reserved. | Affiliate Platform
      </div>
     </div>
-   </footer>
+   </div><!-- COURSES PAGE -->
+   <div id="courses" class="page min-h-screen overflow-auto">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-12">
+     <h2 class="text-3xl md:text-4xl font-bold mb-8">All Courses</h2><!-- Filter -->
+     <div class="mb-8"><select id="course-filter" onchange="filterCourses()" class="px-4 py-2 rounded-lg font-medium w-full md:w-48"> <option value="all">All Courses</option> <option value="marketing">Marketing</option> <option value="sales">Sales</option> <option value="ai">AI &amp; Tech</option> </select>
+     </div><!-- Course Grid -->
+     <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Course cards will be generated here -->
+     </div>
+    </div>
+   </div><!-- PROFILE / SIGN IN PAGE -->
+   <div id="profile" class="page min-h-screen overflow-auto">
+    <div id="auth-container" class="max-w-4xl mx-auto px-4 md:px-8 py-12"><!-- Login Form -->
+     <div id="login-form" class="card-3d p-8 rounded-lg max-w-md mx-auto">
+      <h2 class="text-3xl font-bold mb-8 text-center">Sign In to SkillStrike</h2>
+      <form onsubmit="handleLogin(event)">
+       <div class="mb-6"><label class="block text-sm font-semibold mb-2">Email</label> <input type="email" id="login-email" placeholder="your@email.com" required class="w-full px-4 py-2 rounded-lg">
+       </div>
+       <div class="mb-8"><label class="block text-sm font-semibold mb-2">Password</label> <input type="password" id="login-password" placeholder="••••••••" required class="w-full px-4 py-2 rounded-lg">
+       </div><button type="submit" class="glow-button w-full py-3 rounded-lg font-semibold text-white mb-4">Sign In</button>
+      </form>
+      <p class="text-center text-gray-400 text-sm">Don't have an account? <button onclick="toggleSignup()" class="text-blue-400 hover:text-blue-300 font-semibold">Sign Up</button></p>
+     </div><!-- Signup Form (Hidden by default) -->
+     <div id="signup-form" class="hidden card-3d p-8 rounded-lg max-w-md mx-auto">
+      <h2 class="text-3xl font-bold mb-8 text-center">Create Account</h2>
+      <form onsubmit="handleSignup(event)">
+       <div class="mb-4"><label class="block text-sm font-semibold mb-2">Name</label> <input type="text" id="signup-name" placeholder="Your Name" required class="w-full px-4 py-2 rounded-lg">
+       </div>
+       <div class="mb-4"><label class="block text-sm font-semibold mb-2">Email</label> <input type="email" id="signup-email" placeholder="your@email.com" required class="w-full px-4 py-2 rounded-lg">
+       </div>
+       <div class="mb-4"><label class="block text-sm font-semibold mb-2">Password</label> <input type="password" id="signup-password" placeholder="••••••••" required class="w-full px-4 py-2 rounded-lg">
+       </div>
+       <div class="mb-8"><label class="block text-sm font-semibold mb-2">Referral Code (Optional)</label> <input type="text" id="signup-referral" placeholder="Mentor's code" class="w-full px-4 py-2 rounded-lg">
+       </div><button type="submit" class="glow-button w-full py-3 rounded-lg font-semibold text-white mb-4">Create Account</button>
+      </form>
+      <p class="text-center text-gray-400 text-sm">Already have account? <button onclick="toggleSignup()" class="text-blue-400 hover:text-blue-300 font-semibold">Sign In</button></p>
+     </div>
+    </div><!-- Dashboard (Hidden until logged in) -->
+    <div id="dashboard" class="hidden max-w-7xl mx-auto px-4 md:px-8 py-12"><!-- User Header -->
+     <div class="card-3d p-8 rounded-lg mb-8 flex flex-col md:flex-row justify-between items-start md:items-center">
+      <div>
+       <h2 class="text-3xl font-bold mb-2" id="dash-name">Welcome, User</h2>
+       <p class="text-gray-400" id="dash-id">User ID: #0000</p>
+      </div><button onclick="handleLogout()" class="mt-4 md:mt-0 border-2 border-red-500 px-6 py-2 rounded-lg text-red-400 hover:bg-red-500/10 font-semibold transition">Logout</button>
+     </div><!-- Stats Grid -->
+     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div class="card-3d p-6 rounded-lg text-center">
+       <p class="text-gray-400 text-sm mb-2">Skill Points (SP)</p>
+       <p class="text-4xl font-bold text-blue-400" id="dash-sp">0</p>
+      </div>
+      <div class="card-3d p-6 rounded-lg text-center">
+       <p class="text-gray-400 text-sm mb-2">Current Level</p>
+       <p class="text-2xl font-bold" id="dash-level">NEWBIE</p>
+      </div>
+      <div class="card-3d p-6 rounded-lg text-center">
+       <p class="text-gray-400 text-sm mb-2">Total Earnings</p>
+       <p class="text-4xl font-bold text-green-400" id="dash-earnings">₹0</p>
+      </div>
+      <div class="card-3d p-6 rounded-lg text-center">
+       <p class="text-gray-400 text-sm mb-2">Total Sales</p>
+       <p class="text-4xl font-bold text-blue-400" id="dash-sales">0</p>
+      </div>
+     </div><!-- Profile Info -->
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div class="card-3d p-6 rounded-lg">
+       <h3 class="text-xl font-bold mb-4">Profile Information</h3>
+       <p class="text-gray-400 mb-2"><span class="text-blue-300">Mentor:</span> <span id="dash-mentor">-</span></p>
+       <p class="text-gray-400 mb-2"><span class="text-blue-300">Upline:</span> <span id="dash-upline">-</span></p>
+       <p class="text-gray-400 mb-2"><span class="text-blue-300">Rank:</span> <span id="dash-rank">-</span></p>
+       <p class="text-gray-400"><span class="text-blue-300">Team Size:</span> <span id="dash-team">0</span></p>
+      </div>
+      <div class="card-3d p-6 rounded-lg">
+       <h3 class="text-xl font-bold mb-4">Commission Breakdown</h3>
+       <p class="text-gray-400 mb-2"><span class="text-green-300">Direct Seller:</span> <span id="dash-seller-comm">₹0</span></p>
+       <p class="text-gray-400 mb-2"><span class="text-green-300">Mentor Commission:</span> <span id="dash-mentor-comm">₹0</span></p>
+       <p class="text-gray-400 mb-2"><span class="text-green-300">Override Commission:</span> <span id="dash-override-comm">₹0</span></p>
+       <p class="text-gray-400"><span class="text-green-300">Total Pending:</span> <span id="dash-pending">₹0</span></p>
+      </div>
+     </div><!-- KYC Section -->
+     <div class="card-3d p-6 rounded-lg mb-8">
+      <div class="flex justify-between items-center mb-4">
+       <h3 class="text-xl font-bold">KYC Verification</h3>
+       <div id="kyc-status" class="px-4 py-2 bg-red-500/20 rounded-lg text-red-400 text-sm font-semibold">
+        Not Verified
+       </div>
+      </div>
+      <div id="kyc-form" class="space-y-4">
+       <p class="text-gray-400 text-sm mb-4">Complete KYC to enable withdrawals</p>
+       <div><label class="block text-sm font-semibold mb-2">Aadhar Number</label> <input type="text" id="kyc-aadhar" placeholder="12-digit Aadhar" maxlength="12" class="w-full px-4 py-2 rounded-lg">
+       </div>
+       <div><label class="block text-sm font-semibold mb-2">PAN Number</label> <input type="text" id="kyc-pan" placeholder="10-digit PAN (e.g., AAAPA1234A)" maxlength="10" class="w-full px-4 py-2 rounded-lg">
+       </div>
+       <div><label class="block text-sm font-semibold mb-2">UPI ID</label> <input type="text" id="kyc-upi" placeholder="yourname@bank" class="w-full px-4 py-2 rounded-lg">
+       </div><button onclick="submitKYC()" class="glow-button w-full py-3 rounded-lg font-semibold text-white">Verify Now</button>
+      </div>
+      <div id="kyc-verified" class="hidden">
+       <div class="space-y-3">
+        <p class="text-green-400 text-sm mb-4">✓ KYC Verified</p>
+        <p class="text-gray-400 text-sm"><span class="text-blue-300">Aadhar:</span> <span id="kyc-aadhar-display">-</span></p>
+        <p class="text-gray-400 text-sm"><span class="text-blue-300">PAN:</span> <span id="kyc-pan-display">-</span></p>
+        <p class="text-gray-400 text-sm"><span class="text-blue-300">UPI ID:</span> <span id="kyc-upi-display">-</span></p><button onclick="editKYC()" class="mt-4 border-2 border-blue-500 px-4 py-2 rounded-lg text-blue-400 hover:bg-blue-500/10 font-semibold transition">Edit KYC</button>
+       </div>
+      </div>
+     </div><!-- Withdrawal Section -->
+     <div class="card-3d p-6 rounded-lg mb-8">
+      <h3 class="text-xl font-bold mb-4">Withdrawals</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+       <div class="bg-blue-500/10 p-4 rounded-lg">
+        <p class="text-gray-400 text-sm">Available Balance</p>
+        <p class="text-2xl font-bold text-green-400" id="withdraw-available">₹0</p>
+       </div>
+       <div class="bg-blue-500/10 p-4 rounded-lg">
+        <p class="text-gray-400 text-sm">Pending Requests</p>
+        <p class="text-2xl font-bold text-yellow-400" id="withdraw-pending">0</p>
+       </div>
+       <div class="bg-blue-500/10 p-4 rounded-lg">
+        <p class="text-gray-400 text-sm">Completed</p>
+        <p class="text-2xl font-bold text-blue-400" id="withdraw-completed">0</p>
+       </div>
+      </div>
+      <div id="withdraw-form" class="space-y-4 mb-6">
+       <div><label class="block text-sm font-semibold mb-2">Withdrawal Amount (₹)</label> <input type="number" id="withdraw-amount" placeholder="Minimum ₹500" min="500" class="w-full px-4 py-2 rounded-lg">
+       </div>
+       <p class="text-gray-400 text-xs">Min: ₹500 | Commission Split: Seller 70% + Mentor 30%</p><button onclick="requestWithdrawal()" class="glow-button w-full py-3 rounded-lg font-semibold text-white">Request Withdrawal</button>
+      </div>
+      <div id="withdraw-history" class="space-y-3">
+       <h4 class="font-bold text-blue-300 mb-3">Withdrawal History</h4>
+       <div id="withdraw-history-list" class="space-y-2"><!-- Withdrawal items will be generated -->
+       </div>
+      </div>
+     </div><!-- Courses Purchased -->
+     <div class="card-3d p-6 rounded-lg mb-8">
+      <h3 class="text-xl font-bold mb-4">Your Courses</h3>
+      <div class="overflow-x-auto">
+       <table class="w-full text-left">
+        <thead class="border-b border-blue-500/30">
+         <tr>
+          <th class="pb-3 text-blue-300">Course</th>
+          <th class="pb-3 text-blue-300">Price</th>
+          <th class="pb-3 text-blue-300">Progress</th>
+          <th class="pb-3 text-blue-300">Status</th>
+         </tr>
+        </thead>
+        <tbody id="dash-courses-table"><!-- Course rows will be generated -->
+        </tbody>
+       </table>
+      </div>
+     </div><!-- Leaderboard -->
+     <div class="card-3d p-6 rounded-lg">
+      <h3 class="text-xl font-bold mb-4">Top 5 Earners</h3>
+      <div class="space-y-3" id="dash-leaderboard"><!-- Leaderboard items will be generated -->
+      </div>
+     </div>
+    </div>
+   </div><!-- TEAM PAGE -->
+   <div id="team" class="page min-h-screen overflow-auto">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-12">
+     <h2 class="text-3xl md:text-4xl font-bold mb-12">Our Team</h2>
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Team Member Cards will be generated here -->
+     </div>
+    </div>
+   </div><!-- SETTINGS PAGE -->
+   <div id="settings" class="page min-h-screen overflow-auto">
+    <div class="max-w-2xl mx-auto px-4 md:px-8 py-12">
+     <h2 class="text-3xl md:text-4xl font-bold mb-8">Settings</h2><!-- Account Settings -->
+     <div class="card-3d p-6 rounded-lg mb-8">
+      <h3 class="text-xl font-bold mb-6">Account Settings</h3>
+      <form onsubmit="handleSettingsUpdate(event)" class="space-y-4">
+       <div><label class="block text-sm font-semibold mb-2">Full Name</label> <input type="text" id="settings-name" placeholder="Your Name" class="w-full px-4 py-2 rounded-lg">
+       </div>
+       <div><label class="block text-sm font-semibold mb-2">Email</label> <input type="email" id="settings-email" placeholder="your@email.com" class="w-full px-4 py-2 rounded-lg">
+       </div>
+       <div><label class="block text-sm font-semibold mb-2">Current Password</label> <input type="password" id="settings-current-pass" placeholder="••••••••" class="w-full px-4 py-2 rounded-lg">
+       </div>
+       <div><label class="block text-sm font-semibold mb-2">New Password (Leave blank to keep current)</label> <input type="password" id="settings-new-pass" placeholder="••••••••" class="w-full px-4 py-2 rounded-lg">
+       </div><button type="submit" class="glow-button w-full py-3 rounded-lg font-semibold text-white">Save Changes</button>
+      </form>
+     </div><!-- Notification Preferences -->
+     <div class="card-3d p-6 rounded-lg">
+      <h3 class="text-xl font-bold mb-6">Notifications</h3>
+      <div class="space-y-4"><label class="flex items-center gap-3 cursor-pointer"> <input type="checkbox" checked class="w-4 h-4"> <span>Email notifications for new courses</span> </label> <label class="flex items-center gap-3 cursor-pointer"> <input type="checkbox" checked class="w-4 h-4"> <span>Earnings and commission updates</span> </label> <label class="flex items-center gap-3 cursor-pointer"> <input type="checkbox" checked class="w-4 h-4"> <span>Team member activities</span> </label> <label class="flex items-center gap-3 cursor-pointer"> <input type="checkbox" class="w-4 h-4"> <span>Weekly digest report</span> </label>
+      </div>
+     </div>
+    </div>
+   </div><!-- CONTACT PAGE -->
+   <div id="contact" class="page min-h-screen overflow-auto">
+    <div class="max-w-4xl mx-auto px-4 md:px-8 py-12">
+     <h2 class="text-3xl md:text-4xl font-bold mb-4">Contact Us</h2>
+     <p class="text-gray-400 mb-12">Have questions? Get in touch with our team.</p>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-8"><!-- Contact Form -->
+      <div class="card-3d p-6 rounded-lg">
+       <h3 class="text-xl font-bold mb-6">Send Message</h3>
+       <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+        <div><label class="block text-sm font-semibold mb-2">Name</label> <input type="text" placeholder="Your Name" class="w-full px-4 py-2 rounded-lg">
+        </div>
+        <div><label class="block text-sm font-semibold mb-2">Email</label> <input type="email" placeholder="your@email.com" class="w-full px-4 py-2 rounded-lg">
+        </div>
+        <div><label class="block text-sm font-semibold mb-2">Subject</label> <input type="text" placeholder="How can we help?" class="w-full px-4 py-2 rounded-lg">
+        </div>
+        <div><label class="block text-sm font-semibold mb-2">Message</label> <textarea placeholder="Your message..." rows="4" class="w-full px-4 py-2 rounded-lg"></textarea>
+        </div><button type="submit" class="glow-button w-full py-3 rounded-lg font-semibold text-white">Send Message</button>
+       </form>
+      </div><!-- Contact Info -->
+      <div class="space-y-6">
+       <div class="card-3d p-6 rounded-lg">
+        <div class="flex items-start gap-4"><i data-lucide="mail" class="w-6 h-6 text-blue-400 mt-1"></i>
+         <div>
+          <h4 class="font-bold mb-1">Email</h4>
+          <p class="text-gray-400">support@skillstrike.com</p>
+         </div>
+        </div>
+       </div>
+       <div class="card-3d p-6 rounded-lg">
+        <div class="flex items-start gap-4"><i data-lucide="phone" class="w-6 h-6 text-blue-400 mt-1"></i>
+         <div>
+          <h4 class="font-bold mb-1">Phone</h4>
+          <p class="text-gray-400">+91 XXXXX XXXXX</p>
+         </div>
+        </div>
+       </div>
+       <div class="card-3d p-6 rounded-lg">
+        <div class="flex items-start gap-4"><i data-lucide="map-pin" class="w-6 h-6 text-blue-400 mt-1"></i>
+         <div>
+          <h4 class="font-bold mb-1">Location</h4>
+          <p class="text-gray-400">New Delhi, India</p>
+         </div>
+        </div>
+       </div>
+       <div class="card-3d p-6 rounded-lg">
+        <h4 class="font-bold mb-4">About SkillStrike</h4>
+        <p class="text-gray-400 text-sm">SkillStrike is an AI-powered learning platform combining cutting-edge education with affiliate marketing. Earn while you learn and build a sustainable income stream.</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hidden z-50 max-w-xs">
+   <p id="toast-message"></p>
   </div>
   <script>
-// STATE
-let currentPage = 'home';
+        // ==================== DATA SDK INITIALIZATION ====================
+        const dataHandler = {
+            onDataChanged(data) {
+                allUsers = data || [];
+            }
+        };
 
-// NAVIGATION
-function navigateTo(page) {
-  currentPage = page;
-  document.querySelectorAll('.page-section').forEach(s => s.classList.add('hidden'));
-  const target = document.getElementById('page-' + page);
-  if (target) { 
-    target.classList.remove('hidden'); 
-    target.classList.add('animate-fade-up'); 
-  }
-  document.querySelectorAll('[data-nav]').forEach(n => {
-    n.classList.toggle('active', n.dataset.nav === page);
-  });
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+        async function initializeDataSDK() {
+            if (window.dataSdk) {
+                const result = await window.dataSdk.init(dataHandler);
+                if (!result.isOk) {
+                    console.error('Failed to initialize Data SDK');
+                }
+            }
+        }
 
-function toggleMobileMenu() {
-  document.getElementById('mobileMenu').classList.toggle('hidden');
-}
+        initializeDataSDK();
 
-// ELEMENT SDK
-const defaultConfig = {
-  platform_title: 'SkillStrike',
-  tagline: 'Earn While You Learn & Teach',
-  location: 'SK 13 Shastri Nagar, Gaziabad',
-  phone: '+91 8882728942',
-  email: 'skillstrikee@gmail.com',
-  font_family: 'Poppins, sans-serif',
-  font_size: 16
-};
+        // ==================== PARTICLE ANIMATION ====================
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-if (window.elementSdk) {
-  window.elementSdk.init({
-    defaultConfig,
-    onConfigChange: async (config) => {
-      document.getElementById('navTitle').textContent = config.platform_title || defaultConfig.platform_title;
-      document.getElementById('heroTitle').textContent = config.platform_title || defaultConfig.platform_title;
-      document.getElementById('heroTagline').textContent = config.tagline || defaultConfig.tagline;
-      document.getElementById('contactLocation').textContent = config.location || defaultConfig.location;
-      document.getElementById('contactPhone').textContent = config.phone || defaultConfig.phone;
-      document.getElementById('contactEmail').textContent = config.email || defaultConfig.email;
-    },
-    mapToCapabilities: (config) => ({
-      recolorables: [],
-      borderables: [],
-      fontEditable: undefined,
-      fontSizeable: undefined
-    }),
-    mapToEditPanelValues: (config) => new Map([
-      ['platform_title', config.platform_title || defaultConfig.platform_title],
-      ['tagline', config.tagline || defaultConfig.tagline],
-      ['location', config.location || defaultConfig.location],
-      ['phone', config.phone || defaultConfig.phone],
-      ['email', config.email || defaultConfig.email]
-    ])
-  });
-}
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
 
-lucide.createIcons();
-  </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e807cd3963933d8',t:'MTc3NTQ3NTMxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(0, 150, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 100; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0a0a0a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // ==================== APP STATE ====================
+        let currentUser = null;
+        let allUsers = [];
+        const courses = [
+            { id: 1, name: 'Social Media Marketing', price: 2999, category: 'marketing', icon: 'share-2' },
+            { id: 2, name: 'Lead Generation', price: 4999, category: 'sales', icon: 'target' },
+            { id: 3, name: 'AI Generation', price: 6999, category: 'ai', icon: 'sparkles' },
+            { id: 4, name: 'Facebook Ads Mastery', price: 3499, category: 'marketing', icon: 'facebook' },
+            { id: 5, name: 'Sales Funnel Design', price: 5499, category: 'sales', icon: 'trending-up' },
+            { id: 6, name: 'ChatGPT Pro Course', price: 2499, category: 'ai', icon: 'zap' }
+        ];
+
+        const teamMembers = [
+            { name: 'Rajesh Kumar', role: 'Founder', sp: 45000, level: 'LEGEND', image: '👨‍💼' },
+            { name: 'Priya Singh', role: 'Co-founder', sp: 38000, level: 'ICON', image: '👩‍💼' },
+            { name: 'Arjun Patel', role: 'Lead Trainer', sp: 28000, level: 'INFLUENCER', image: '👨‍🏫' },
+            { name: 'Neha Sharma', role: 'Community Manager', sp: 18000, level: 'LEADER', image: '👩‍💻' },
+            { name: 'Vikas Kumar', role: 'Growth Specialist', sp: 15000, level: 'LEADER', image: '👨‍💻' },
+            { name: 'Anushka Verma', role: 'Content Creator', sp: 12000, level: 'PRO', image: '👩‍🎨' }
+        ];
+
+        const levelThresholds = {
+            'NEWBIE': 0,
+            'STARTER': 1500,
+            'BUILDER': 2000,
+            'HUSTLER': 3000,
+            'PRO': 5000,
+            'CLOSER': 8000,
+            'LEADER': 12000,
+            'INFLUENCER': 18000,
+            'ICON': 25000,
+            'LEGEND': 40000
+        };
+
+        // ==================== NAVIGATION ====================
+        function navigateTo(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(page).classList.add('active');
+
+            // Update nav button state - find button by data attribute or text
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            const navButtons = Array.from(document.querySelectorAll('.nav-btn'));
+            const pageNames = ['home', 'courses', 'team', 'settings', 'contact'];
+            const buttonIndex = pageNames.indexOf(page);
+            if (buttonIndex !== -1 && navButtons[buttonIndex]) {
+                navButtons[buttonIndex].classList.add('active');
+            }
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.add('hidden');
+        }
+
+        // ==================== AUTHENTICATION ====================
+        function toggleAuth() {
+            if (currentUser) {
+                handleLogout();
+            } else {
+                navigateTo('profile');
+            }
+        }
+
+        function toggleSignup() {
+            document.getElementById('login-form').classList.toggle('hidden');
+            document.getElementById('signup-form').classList.toggle('hidden');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const user = allUsers.find(u => u.email === email && u.password === password);
+            if (user) {
+                currentUser = user;
+                showDashboard();
+                navigateTo('profile');
+                showToast('Login successful!');
+            } else {
+                showToast('Invalid email or password');
+            }
+        }
+
+        function handleSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const referral = document.getElementById('signup-referral').value || null;
+
+            const userExists = allUsers.find(u => u.email === email);
+            if (userExists) {
+                showToast('Email already exists!');
+                return;
+            }
+
+            const newUser = {
+                id: 'SKS-' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+                name,
+                email,
+                password,
+                sp: 0,
+                earnings: 0,
+                sales: 0,
+                mentor: referral || 'System',
+                upline: 'Founder',
+                rank: 'MEMBER',
+                team: '',
+                courses: '',
+                sellerComm: 0,
+                mentorComm: 0,
+                overrideComm: 0,
+                kycVerified: false,
+                aadharNumber: '',
+                panNumber: '',
+                upiId: '',
+                kycStatus: 'PENDING',
+                pendingWithdrawals: '',
+                completedWithdrawals: ''
+            };
+
+            // Show loading state
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Creating...';
+            submitBtn.disabled = true;
+
+            window.dataSdk.create(newUser).then(result => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+
+                if (result.isOk) {
+                    currentUser = newUser;
+                    showDashboard();
+                    navigateTo('profile');
+                    showToast('Account created successfully!');
+                    document.getElementById('signup-name').value = '';
+                    document.getElementById('signup-email').value = '';
+                    document.getElementById('signup-password').value = '';
+                    document.getElementById('signup-referral').value = '';
+                } else {
+                    showToast('Failed to create account. Try again.');
+                }
+            });
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            document.getElementById('auth-container').style.display = 'block';
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('login-form').classList.remove('hidden');
+            document.getElementById('signup-form').classList.add('hidden');
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-password').value = '';
+            showToast('Logged out successfully');
+        }
+
+        function showDashboard() {
+            document.getElementById('auth-container').style.display = 'none';
+            document.getElementById('dashboard').classList.remove('hidden');
+            updateDashboard();
+        }
+
+        // ==================== DASHBOARD ====================
+        function calculateLevel(sp) {
+            let level = 'NEWBIE';
+            for (const [lvl, threshold] of Object.entries(levelThresholds)) {
+                if (sp >= threshold) level = lvl;
+            }
+            return level;
+        }
+
+        function updateDashboard() {
+            if (!currentUser) return;
+
+            const level = calculateLevel(currentUser.sp);
+            document.getElementById('dash-name').textContent = `Welcome, ${currentUser.name}`;
+            document.getElementById('dash-id').textContent = `User ID: ${currentUser.id}`;
+            document.getElementById('dash-sp').textContent = currentUser.sp.toLocaleString();
+            document.getElementById('dash-level').textContent = level;
+            document.getElementById('dash-level').className = `text-2xl font-bold level-${level.toLowerCase()}`;
+            document.getElementById('dash-earnings').textContent = '₹' + currentUser.earnings.toLocaleString();
+            document.getElementById('dash-sales').textContent = currentUser.sales;
+            document.getElementById('dash-mentor').textContent = currentUser.mentor;
+            document.getElementById('dash-upline').textContent = currentUser.upline;
+            document.getElementById('dash-rank').textContent = currentUser.rank;
+            document.getElementById('dash-team').textContent = currentUser.team.length;
+            document.getElementById('dash-seller-comm').textContent = '₹' + currentUser.sellerComm.toLocaleString();
+            document.getElementById('dash-mentor-comm').textContent = '₹' + currentUser.mentorComm.toLocaleString();
+            document.getElementById('dash-override-comm').textContent = '₹' + currentUser.overrideComm.toLocaleString();
+            document.getElementById('dash-pending').textContent = '₹' + (currentUser.sellerComm + currentUser.mentorComm + currentUser.overrideComm).toLocaleString();
+
+            // Update KYC display
+            updateKYCDisplay();
+
+            // Update withdrawal display
+            updateWithdrawalDisplay();
+
+            // Update courses table
+            const coursesTable = document.getElementById('dash-courses-table');
+            coursesTable.innerHTML = '';
+            const userCourses = currentUser.courses ? JSON.parse(currentUser.courses) : [];
+            userCourses.forEach(course => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-blue-500/20 hover:bg-blue-500/10 transition';
+                row.innerHTML = `
+                    <td class="py-3">${course.name}</td>
+                    <td class="py-3">₹${course.price.toLocaleString()}</td>
+                    <td class="py-3"><div class="w-32 h-2 bg-gray-700 rounded-full overflow-hidden"><div class="h-full bg-blue-500" style="width: ${course.progress}%"></div></div></td>
+                    <td class="py-3"><span class="text-green-400">${course.progress}% Complete</span></td>
+                `;
+                coursesTable.appendChild(row);
+            });
+
+            // Update leaderboard
+            const leaderboard = document.getElementById('dash-leaderboard');
+            leaderboard.innerHTML = '';
+            const topEarners = allUsers
+                .sort((a, b) => b.earnings - a.earnings)
+                .slice(0, 5);
+
+            topEarners.forEach((user, i) => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between p-3 bg-blue-500/10 rounded-lg';
+                const level = calculateLevel(user.sp);
+                item.innerHTML = `
+                    <div>
+                        <p class="font-semibold">${i + 1}. ${user.name}</p>
+                        <p class="text-sm text-gray-400">${user.sp.toLocaleString()} SP</p>
+                    </div>
+                    <p class="font-bold text-green-400">₹${user.earnings.toLocaleString()}</p>
+                `;
+                leaderboard.appendChild(item);
+            });
+        }
+
+        // ==================== COURSES ====================
+        function filterCourses() {
+            const filter = document.getElementById('course-filter').value;
+            const grid = document.getElementById('courses-grid');
+            grid.innerHTML = '';
+
+            const filtered = filter === 'all' ? courses : courses.filter(c => c.category === filter);
+
+            filtered.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'card-3d p-6 rounded-lg hover:glow-blue-hover cursor-pointer';
+                card.innerHTML = `
+                    <div class="w-full h-32 bg-gradient-to-br from-blue-400 to-purple-600 rounded-lg mb-4 flex items-center justify-center">
+                        <i data-lucide="${course.icon}" class="w-12 h-12 text-white"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">${course.name}</h4>
+                    <p class="text-gray-400 text-sm mb-4">Master this skill</p>
+                    <p class="text-3xl font-bold text-blue-400 mb-4">₹${course.price.toLocaleString()}</p>
+                    <button onclick="enrollCourse(${course.id}, '${course.name}', ${course.price})" class="glow-button w-full py-2 rounded-lg font-semibold text-white">Enroll Now</button>
+                `;
+                grid.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        function enrollCourse(id, name, price) {
+            if (!currentUser) {
+                showToast('Please login first');
+                navigateTo('profile');
+                return;
+            }
+
+            // Parse courses string
+            let userCourses = currentUser.courses ? JSON.parse(currentUser.courses) : [];
+            const courseExists = userCourses.find(c => c.id === id);
+            
+            if (!courseExists) {
+                userCourses.push({ id, name, price, progress: 0 });
+
+                // Calculate SP and commission
+                const sp = Math.round(price * 0.1);
+                const newSP = currentUser.sp + sp;
+                const newEarnings = currentUser.earnings + price * 0.7;
+                const newSales = currentUser.sales + 1;
+                const newSellerComm = currentUser.sellerComm + price * 0.7;
+                const newMentorComm = currentUser.mentorComm + price * 0.3;
+                const newOverrideComm = currentUser.overrideComm + price * 0.1;
+
+                // Update button state
+                event.target.textContent = 'Enrolling...';
+                event.target.disabled = true;
+
+                // Update in database
+                const updatedUser = {
+                    ...currentUser,
+                    sp: newSP,
+                    earnings: newEarnings,
+                    sales: newSales,
+                    courses: JSON.stringify(userCourses),
+                    sellerComm: newSellerComm,
+                    mentorComm: newMentorComm,
+                    overrideComm: newOverrideComm
+                };
+
+                window.dataSdk.update(updatedUser).then(result => {
+                    event.target.textContent = 'Enroll Now';
+                    event.target.disabled = false;
+
+                    if (result.isOk) {
+                        currentUser = updatedUser;
+                        updateDashboard();
+                        showToast(`Enrolled in ${name}! +${sp} SP`);
+                        navigateTo('profile');
+                    } else {
+                        showToast('Failed to enroll. Try again.');
+                    }
+                });
+            } else {
+                showToast('Already enrolled in this course');
+            }
+        }
+
+        // ==================== FORMS ====================
+        function handleSettingsUpdate(e) {
+            e.preventDefault();
+            if (currentUser) {
+                const name = document.getElementById('settings-name').value;
+                const email = document.getElementById('settings-email').value;
+                const newPass = document.getElementById('settings-new-pass').value;
+
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Saving...';
+                submitBtn.disabled = true;
+
+                const updatedUser = {
+                    ...currentUser,
+                    name: name || currentUser.name,
+                    email: email || currentUser.email,
+                    password: newPass || currentUser.password
+                };
+
+                window.dataSdk.update(updatedUser).then(result => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+
+                    if (result.isOk) {
+                        currentUser = updatedUser;
+                        document.getElementById('settings-name').value = '';
+                        document.getElementById('settings-email').value = '';
+                        document.getElementById('settings-current-pass').value = '';
+                        document.getElementById('settings-new-pass').value = '';
+                        showToast('Settings updated successfully');
+                    } else {
+                        showToast('Failed to update settings. Try again.');
+                    }
+                });
+            }
+        }
+
+        function loadSettingsForm() {
+            if (currentUser) {
+                document.getElementById('settings-name').value = currentUser.name;
+                document.getElementById('settings-email').value = currentUser.email;
+            }
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            showToast('Message sent! We will respond soon.');
+            e.target.reset();
+        }
+
+        // ==================== UTILITIES ====================
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        // ==================== KYC FUNCTIONS ====================
+        function submitKYC() {
+            if (!currentUser) {
+                showToast('Please login first');
+                return;
+            }
+
+            const aadhar = document.getElementById('kyc-aadhar').value.trim();
+            const pan = document.getElementById('kyc-pan').value.trim();
+            const upi = document.getElementById('kyc-upi').value.trim();
+
+            if (!aadhar || !pan || !upi) {
+                showToast('Please fill all KYC fields');
+                return;
+            }
+
+            if (aadhar.length !== 12 || isNaN(aadhar)) {
+                showToast('Aadhar must be 12 digits');
+                return;
+            }
+
+            if (pan.length !== 10) {
+                showToast('PAN must be 10 characters');
+                return;
+            }
+
+            if (!upi.includes('@')) {
+                showToast('Invalid UPI ID format');
+                return;
+            }
+
+            const submitBtn = event.target;
+            submitBtn.textContent = 'Verifying...';
+            submitBtn.disabled = true;
+
+            const updatedUser = {
+                ...currentUser,
+                kycVerified: true,
+                aadharNumber: aadhar,
+                panNumber: pan,
+                upiId: upi,
+                kycStatus: 'VERIFIED'
+            };
+
+            window.dataSdk.update(updatedUser).then(result => {
+                submitBtn.textContent = 'Verify Now';
+                submitBtn.disabled = false;
+
+                if (result.isOk) {
+                    currentUser = updatedUser;
+                    updateKYCDisplay();
+                    showToast('KYC verified successfully!');
+                } else {
+                    showToast('Failed to verify KYC. Try again.');
+                }
+            });
+        }
+
+        function editKYC() {
+            document.getElementById('kyc-form').classList.remove('hidden');
+            document.getElementById('kyc-verified').classList.add('hidden');
+            document.getElementById('kyc-aadhar').value = currentUser.aadharNumber;
+            document.getElementById('kyc-pan').value = currentUser.panNumber;
+            document.getElementById('kyc-upi').value = currentUser.upiId;
+        }
+
+        function updateKYCDisplay() {
+            if (!currentUser) return;
+
+            if (currentUser.kycVerified) {
+                document.getElementById('kyc-status').innerHTML = '<span class="text-green-400">✓ Verified</span>';
+                document.getElementById('kyc-form').classList.add('hidden');
+                document.getElementById('kyc-verified').classList.remove('hidden');
+                document.getElementById('kyc-aadhar-display').textContent = currentUser.aadharNumber.slice(-4).padStart(currentUser.aadharNumber.length, '*');
+                document.getElementById('kyc-pan-display').textContent = currentUser.panNumber;
+                document.getElementById('kyc-upi-display').textContent = currentUser.upiId;
+            } else {
+                document.getElementById('kyc-status').innerHTML = '<span class="text-red-400">Not Verified</span>';
+                document.getElementById('kyc-form').classList.remove('hidden');
+                document.getElementById('kyc-verified').classList.add('hidden');
+            }
+        }
+
+        // ==================== WITHDRAWAL FUNCTIONS ====================
+        function requestWithdrawal() {
+            if (!currentUser) {
+                showToast('Please login first');
+                return;
+            }
+
+            if (!currentUser.kycVerified) {
+                showToast('Please complete KYC verification first');
+                return;
+            }
+
+            const amount = parseFloat(document.getElementById('withdraw-amount').value);
+            const totalAvailable = currentUser.sellerComm + currentUser.mentorComm + currentUser.overrideComm;
+
+            if (!amount || amount < 500) {
+                showToast('Minimum withdrawal amount is ₹500');
+                return;
+            }
+
+            if (amount > totalAvailable) {
+                showToast(`Insufficient balance. Available: ₹${totalAvailable.toLocaleString()}`);
+                return;
+            }
+
+            const withdrawalRequest = {
+                id: 'WD-' + Date.now(),
+                amount: amount,
+                upiId: currentUser.upiId,
+                status: 'PENDING',
+                timestamp: new Date().toISOString(),
+                sellerAmount: Math.round(amount * 0.7),
+                mentorAmount: Math.round(amount * 0.3)
+            };
+
+            const submitBtn = event.target;
+            submitBtn.textContent = 'Processing...';
+            submitBtn.disabled = true;
+
+            // Add to pending withdrawals
+            let pendingWithdrawals = currentUser.pendingWithdrawals ? JSON.parse(currentUser.pendingWithdrawals) : [];
+            pendingWithdrawals.push(withdrawalRequest);
+
+            const updatedUser = {
+                ...currentUser,
+                pendingWithdrawals: JSON.stringify(pendingWithdrawals)
+            };
+
+            window.dataSdk.update(updatedUser).then(result => {
+                submitBtn.textContent = 'Request Withdrawal';
+                submitBtn.disabled = false;
+
+                if (result.isOk) {
+                    currentUser = updatedUser;
+                    document.getElementById('withdraw-amount').value = '';
+                    updateWithdrawalDisplay();
+                    showToast('Withdrawal request submitted! Status: PENDING');
+                } else {
+                    showToast('Failed to submit withdrawal. Try again.');
+                }
+            });
+        }
+
+        function updateWithdrawalDisplay() {
+            if (!currentUser) return;
+
+            const totalAvailable = currentUser.sellerComm + currentUser.mentorComm + currentUser.overrideComm;
+            document.getElementById('withdraw-available').textContent = '₹' + totalAvailable.toLocaleString();
+
+            const pendingWithdrawals = currentUser.pendingWithdrawals ? JSON.parse(currentUser.pendingWithdrawals) : [];
+            const completedWithdrawals = currentUser.completedWithdrawals ? JSON.parse(currentUser.completedWithdrawals) : [];
+
+            const pending = pendingWithdrawals.filter(w => w.status === 'PENDING').length;
+            const completed = completedWithdrawals.filter(w => w.status === 'COMPLETED').length;
+
+            document.getElementById('withdraw-pending').textContent = pending;
+            document.getElementById('withdraw-completed').textContent = completed;
+
+            // Update withdrawal history
+            const historyList = document.getElementById('withdraw-history-list');
+            historyList.innerHTML = '';
+
+            const allWithdrawals = [...completedWithdrawals, ...pendingWithdrawals].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            if (allWithdrawals.length === 0) {
+                historyList.innerHTML = '<p class="text-gray-400 text-sm">No withdrawals yet</p>';
+                return;
+            }
+
+            allWithdrawals.forEach(w => {
+                const date = new Date(w.timestamp).toLocaleDateString();
+                const statusClass = w.status === 'COMPLETED' ? 'text-green-400' : 'text-yellow-400';
+                const item = document.createElement('div');
+                item.className = 'p-3 bg-blue-500/10 rounded-lg border border-blue-500/20';
+                item.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="font-semibold">₹${w.amount.toLocaleString()}</p>
+                            <p class="text-xs text-gray-400">${date} | ${w.upiId}</p>
+                            <p class="text-xs text-gray-400">Seller: ₹${w.sellerAmount.toLocaleString()} | Mentor: ₹${w.mentorAmount.toLocaleString()}</p>
+                        </div>
+                        <span class="text-sm font-semibold ${statusClass}">${w.status}</span>
+                    </div>
+                `;
+                historyList.appendChild(item);
+            });
+        }
+
+        // ==================== TEAM PAGE ====================
+        function initTeamPage() {
+            const teamGrid = document.querySelector('#team .grid');
+            if (!teamGrid) return;
+            teamGrid.innerHTML = '';
+
+            teamMembers.forEach(member => {
+                const card = document.createElement('div');
+                card.className = 'card-3d p-6 rounded-lg text-center hover:glow-blue-hover';
+                const levelKey = member.level.toLowerCase();
+                card.innerHTML = `
+                    <div class="text-6xl mb-4">${member.image}</div>
+                    <h4 class="text-xl font-bold mb-2">${member.name}</h4>
+                    <p class="text-blue-300 text-sm mb-3">${member.role}</p>
+                    <p class="text-gray-400 mb-2"><span class="text-blue-300">SP:</span> ${member.sp.toLocaleString()}</p>
+                    <p class="text-sm font-semibold level-${levelKey}">${member.level}</p>
+                `;
+                teamGrid.appendChild(card);
+            });
+        }
+
+        // ==================== INITIALIZATION ====================
+        let demoUserCreated = localStorage.getItem('demoUserCreated');
+
+        window.addEventListener('load', () => {
+            lucide.createIcons();
+            filterCourses();
+            initTeamPage();
+
+            // Demo user - add to database only once
+            if (!demoUserCreated && allUsers.length === 0) {
+                const demoUser = {
+                    id: 'SKS-DEMO001',
+                    name: 'Demo User',
+                    email: 'demo@skillstrike.com',
+                    password: 'demo123',
+                    sp: 5200,
+                    earnings: 28000,
+                    sales: 8,
+                    mentor: 'Rajesh Kumar',
+                    upline: 'Priya Singh',
+                    rank: 'PRO',
+                    team: '',
+                    courses: JSON.stringify([
+                        { id: 1, name: 'Social Media Marketing', price: 2999, progress: 85 },
+                        { id: 2, name: 'Lead Generation', price: 4999, progress: 60 }
+                    ]),
+                    sellerComm: 12000,
+                    mentorComm: 5200,
+                    overrideComm: 2300,
+                    kycVerified: true,
+                    aadharNumber: '123456789012',
+                    panNumber: 'AAAPA1234A',
+                    upiId: 'demo@upi',
+                    kycStatus: 'VERIFIED',
+                    pendingWithdrawals: JSON.stringify([
+                        { id: 'WD-1', amount: 5000, upiId: 'demo@upi', status: 'PENDING', timestamp: new Date().toISOString(), sellerAmount: 3500, mentorAmount: 1500 }
+                    ]),
+                    completedWithdrawals: JSON.stringify([
+                        { id: 'WD-0', amount: 10000, upiId: 'demo@upi', status: 'COMPLETED', timestamp: new Date(Date.now() - 86400000).toISOString(), sellerAmount: 7000, mentorAmount: 3000 }
+                    ])
+                };
+
+                window.dataSdk.create(demoUser).then(result => {
+                    if (result.isOk) {
+                        localStorage.setItem('demoUserCreated', 'true');
+                        showToast('Demo account ready! demo@skillstrike.com / demo123');
+                    }
+                });
+            } else if (allUsers.length > 0 && allUsers.find(u => u.email === 'demo@skillstrike.com')) {
+                showToast('Demo: demo@skillstrike.com / demo123');
+            }
+        });
+
+        // Update nav on page change
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e980755a37891df',t:'MTc3NTcyMjE1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
